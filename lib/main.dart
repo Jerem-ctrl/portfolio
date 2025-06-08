@@ -41,7 +41,8 @@ class MacOSStyleHome extends StatefulWidget {
   State<MacOSStyleHome> createState() => _MacOSStyleHomeState();
 }
 
-class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProviderStateMixin {
+class _MacOSStyleHomeState extends State<MacOSStyleHome>
+    with SingleTickerProviderStateMixin {
   late Timer _timer;
   late DateTime _currentTime;
   bool _isLoading = true;
@@ -80,19 +81,22 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProvid
     super.dispose();
   }
 
-  PageRouteBuilder _buildProjectWindow(BuildContext context, String title, List<Widget> content) {
+  PageRouteBuilder _buildProjectWindow(
+    BuildContext context,
+    String title,
+    List<Widget> content,
+  ) {
     return PageRouteBuilder(
       opaque: false,
       transitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (_, __, ___) => MacOSProjectWindow(
-        title: title,
-        content: content,
-      ),
+      pageBuilder: (_, __, ___) =>
+          MacOSProjectWindow(title: title, content: content),
       transitionsBuilder: (_, animation, __, child) {
         return ScaleTransition(
-          scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-            CurvedAnimation(parent: animation, curve: Curves.easeOut),
-          ),
+          scale: Tween<double>(
+            begin: 0.8,
+            end: 1.0,
+          ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
           child: FadeTransition(opacity: animation, child: child),
         );
       },
@@ -155,68 +159,124 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProvid
                       height: 25,
                       width: 25,
                     ),
-                    const Text('  Finder',
-                        style: TextStyle(
-                            fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold)),
+                    const Text(
+                      '  Finder',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(width: 12),
                     _macMenuItem(context, 'À propos', () {
-                      showDialog(context: context, builder: (_) => const AboutMeWindow());
+                      showDialog(
+                        context: context,
+                        builder: (_) => const AboutMeWindow(),
+                      );
                     }),
                     _macMenuItem(context, 'Contact', () {
-                      Navigator.of(context).push(PageRouteBuilder(
-                        opaque: false,
-                        transitionDuration: const Duration(milliseconds: 400),
-                        pageBuilder: (_, __, ___) => const ContactWindow(),
-                        transitionsBuilder: (_, anim, __, child) => ScaleTransition(
-                          scale: Tween<double>(begin: 0.8, end: 1.0)
-                              .animate(CurvedAnimation(parent: anim, curve: Curves.easeOut)),
-                          child: FadeTransition(opacity: anim, child: child),
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          transitionDuration: const Duration(milliseconds: 400),
+                          pageBuilder: (_, __, ___) => const ContactWindow(),
+                          transitionsBuilder: (_, anim, __, child) =>
+                              ScaleTransition(
+                                scale: Tween<double>(begin: 0.8, end: 1.0)
+                                    .animate(
+                                      CurvedAnimation(
+                                        parent: anim,
+                                        curve: Curves.easeOut,
+                                      ),
+                                    ),
+                                child: FadeTransition(
+                                  opacity: anim,
+                                  child: child,
+                                ),
+                              ),
                         ),
-                      ));
+                      );
                     }),
                     _macMenuItem(context, 'Projets', () {
                       Navigator.of(context).push(
-                        _buildProjectWindow(context, 'Tous les projets', getAllProjects()),
+                        _buildProjectWindow(
+                          context,
+                          'Tous les projets',
+                          getAllProjects(),
+                        ),
                       );
                     }),
                     _macMenuItem(context, 'Compétences', () {
-                      Navigator.of(context).push(PageRouteBuilder(
-                        opaque: false,
-                        transitionDuration: const Duration(milliseconds: 400),
-                        pageBuilder: (_, __, ___) => const CompetenceWindow(),
-                        transitionsBuilder: (_, anim, __, child) => ScaleTransition(
-                          scale: Tween<double>(begin: 0.8, end: 1.0)
-                              .animate(CurvedAnimation(parent: anim, curve: Curves.easeOut)),
-                          child: FadeTransition(opacity: anim, child: child),
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          transitionDuration: const Duration(milliseconds: 400),
+                          pageBuilder: (_, __, ___) => const CompetenceWindow(),
+                          transitionsBuilder: (_, anim, __, child) =>
+                              ScaleTransition(
+                                scale: Tween<double>(begin: 0.8, end: 1.0)
+                                    .animate(
+                                      CurvedAnimation(
+                                        parent: anim,
+                                        curve: Curves.easeOut,
+                                      ),
+                                    ),
+                                child: FadeTransition(
+                                  opacity: anim,
+                                  child: child,
+                                ),
+                              ),
                         ),
-                      ));
+                      );
                     }),
                     _macMenuItem(context, 'Expérience', () {
-                      Navigator.of(context).push(PageRouteBuilder(
-                        opaque: false,
-                        transitionDuration: const Duration(milliseconds: 400),
-                        pageBuilder: (_, __, ___) => const ExperienceWindow(),
-                        transitionsBuilder: (_, anim, __, child) => ScaleTransition(
-                          scale: Tween<double>(begin: 0.8, end: 1.0)
-                              .animate(CurvedAnimation(parent: anim, curve: Curves.easeOut)),
-                          child: FadeTransition(opacity: anim, child: child),
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          transitionDuration: const Duration(milliseconds: 400),
+                          pageBuilder: (_, __, ___) => const ExperienceWindow(),
+                          transitionsBuilder: (_, anim, __, child) =>
+                              ScaleTransition(
+                                scale: Tween<double>(begin: 0.8, end: 1.0)
+                                    .animate(
+                                      CurvedAnimation(
+                                        parent: anim,
+                                        curve: Curves.easeOut,
+                                      ),
+                                    ),
+                                child: FadeTransition(
+                                  opacity: anim,
+                                  child: child,
+                                ),
+                              ),
                         ),
-                      ));
+                      );
                     }),
                     const Spacer(),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 4),
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Text('FR',
-                          style: TextStyle(
-                              color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'FR',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 12),
-                    Text(formattedDate, style: const TextStyle(color: Colors.white, fontSize: 13)),
+                    Text(
+                      formattedDate,
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                    ),
                     const SizedBox(width: 16),
                   ],
                 ),
@@ -230,33 +290,46 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProvid
                   Row(
                     children: const [
                       CustomDesktopIcon(
-                          label: 'Projets',
-                          imagePath: 'assets/images/projetcts.png',
-                          badgeText: '8+'),
+                        label: 'Projets',
+                        imagePath: 'assets/images/projetcts.png',
+                        badgeText: '8+',
+                      ),
                       SizedBox(width: 40),
                       CustomDesktopIcon(
-                          label: 'LinkedIn',
-                          imagePath: 'assets/images/linkedin_icon.png',
-                          badgeText: '4K+'),
+                        label: 'LinkedIn',
+                        imagePath: 'assets/images/linkedin_icon.png',
+                        badgeText: '4K+',
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
                     children: const [
                       CustomDesktopIcon(
-                          label: 'Replit', imagePath: 'assets/images/replit.png', badgeText: '3'),
+                        label: 'Replit',
+                        imagePath: 'assets/images/replit.png',
+                        badgeText: '3',
+                      ),
                       SizedBox(width: 40),
                       CustomDesktopIcon(
-                          label: 'Plein écran', imagePath: 'assets/images/full_screen.png'),
+                        label: 'Plein écran',
+                        imagePath: 'assets/images/full_screen.png',
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
                     children: const [
-                      CustomDesktopIcon(label: 'CV', imagePath: 'assets/images/pdf.png'),
+                      CustomDesktopIcon(
+                        label: 'CV',
+                        imagePath: 'assets/images/pdf.png',
+                      ),
                       SizedBox(width: 40),
                       CustomDesktopIcon(
-                          label: 'GitHub', imagePath: 'assets/images/github.png', badgeText: '10+'),
+                        label: 'GitHub',
+                        imagePath: 'assets/images/github.png',
+                        badgeText: '10+',
+                      ),
                     ],
                   ),
                 ],
@@ -267,12 +340,18 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProvid
               alignment: Alignment.bottomCenter,
               child: Container(
                 margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
-                    BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 12),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      blurRadius: 12,
+                    ),
                   ],
                 ),
                 child: Row(
@@ -292,7 +371,7 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProvid
                       imagePath: 'assets/images/mail.png',
                       label: 'Menvoyez un e-mail',
                       url:
-                          'https://mail.google.com/mail/?view=cm&to=jeremy@example.com&su=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
+                          'https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
                     ),
                     const SizedBox(width: 15),
                     DockIconImage(
@@ -308,7 +387,10 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome> with SingleTickerProvid
                     const SizedBox(width: 15),
                     CalendarDockIcon(url: 'https://calendly.com/jeremy_girard'),
                     const SizedBox(width: 15),
-                    ProfileDockIcon(imagePath: 'assets/images/ts.jpg', label: 'Me contactez'),
+                    ProfileDockIcon(
+                      imagePath: 'assets/images/ts.jpg',
+                      label: 'Me contactez',
+                    ),
                   ],
                 ),
               ),
@@ -327,10 +409,7 @@ Widget _macMenuItem(BuildContext context, String label, VoidCallback onTap) {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Text(
         label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 15,
-        ),
+        style: const TextStyle(color: Colors.white, fontSize: 15),
       ),
     ),
   );
@@ -413,10 +492,12 @@ class DockIconImage extends StatelessWidget {
                   'Implémentation de fonctionnalités de sécurité (authentification, logging)',
                   'Gestion des formulaires et traitement des données utilisateur côté serveur',
                 ],
-                githubUrl: 'https://github.com/Jerem-ctrl/Secure_Embedded_Web_Interface_for_Thales',
+                githubUrl:
+                    'https://github.com/Jerem-ctrl/Secure_Embedded_Web_Interface_for_Thales',
               ),
               StandardProjectCard(
-                title: 'Système de traçabilité Photo embarqué pour Banc Avionique',
+                title:
+                    'Système de traçabilité Photo embarqué pour Banc Avionique',
                 category: 'Systèmes embarqués & Programmation Python',
                 shortDescription:
                     'Développement d’un système embarqué permettant la capture et la gestion sécurisée de photos sur un banc de test avionique, avec interface web, authentification et traçabilité des actions.',
@@ -508,7 +589,8 @@ class DockIconImage extends StatelessWidget {
                     'https://github.com/Jerem-ctrl/Analysis-of-Cyberattacks-and-Security-Best-Practices',
               ),
               StandardProjectCard(
-                title: 'Exploration des réseaux domestiques & impacts énergétiques',
+                title:
+                    'Exploration des réseaux domestiques & impacts énergétiques',
                 category: 'Réseaux & Écoresponsabilité',
                 shortDescription:
                     'Mise en pratique des connaissances réseaux via l’analyse d’un environnement domestique réel, combinée à une étude de la consommation énergétique des équipements.',
@@ -543,19 +625,21 @@ class DockIconImage extends StatelessWidget {
         ),
       );
     } else if (label == 'Me contactez') {
-      Navigator.of(context).push(PageRouteBuilder(
-        opaque: false,
-        transitionDuration: const Duration(milliseconds: 400),
-        pageBuilder: (_, __, ___) => const ContactWindow(),
-        transitionsBuilder: (_, animation, __, child) {
-          return ScaleTransition(
-            scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-              CurvedAnimation(parent: animation, curve: Curves.easeOut),
-            ),
-            child: FadeTransition(opacity: animation, child: child),
-          );
-        },
-      ));
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          transitionDuration: const Duration(milliseconds: 400),
+          pageBuilder: (_, __, ___) => const ContactWindow(),
+          transitionsBuilder: (_, animation, __, child) {
+            return ScaleTransition(
+              scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeOut),
+              ),
+              child: FadeTransition(opacity: animation, child: child),
+            );
+          },
+        ),
+      );
     } else if (label == 'Accueil') {
       html.window.location.reload();
     } else if (url != null && await canLaunchUrl(Uri.parse(url!))) {
@@ -604,7 +688,10 @@ class DockIconImage extends StatelessWidget {
                   top: -5,
                   right: -5,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(10),
@@ -631,23 +718,23 @@ class ProfileDockIcon extends StatelessWidget {
   final String imagePath;
   final String? label;
 
-  const ProfileDockIcon({
-    super.key,
-    required this.imagePath,
-    this.label,
-  });
+  const ProfileDockIcon({super.key, required this.imagePath, this.label});
 
   void _handleTap(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
-      opaque: false,
-      transitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (_, __, ___) => const ContactWindow(),
-      transitionsBuilder: (_, animation, __, child) => ScaleTransition(
-        scale: Tween<double>(begin: 0.8, end: 1.0)
-            .animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
-        child: FadeTransition(opacity: animation, child: child),
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        transitionDuration: const Duration(milliseconds: 400),
+        pageBuilder: (_, __, ___) => const ContactWindow(),
+        transitionsBuilder: (_, animation, __, child) => ScaleTransition(
+          scale: Tween<double>(
+            begin: 0.8,
+            end: 1.0,
+          ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
+          child: FadeTransition(opacity: animation, child: child),
+        ),
       ),
-    ));
+    );
   }
 
   @override
@@ -705,18 +792,29 @@ Widget _projectCard(String title, String desc, String category, String img) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(
-                        color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Text(desc, style: const TextStyle(color: Colors.white70)),
                 const SizedBox(height: 4),
-                Text(category, style: const TextStyle(color: Colors.white38, fontSize: 12)),
+                Text(
+                  category,
+                  style: const TextStyle(color: Colors.white38, fontSize: 12),
+                ),
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(backgroundColor: Colors.white),
-                  child: const Text('Voir plus', style: TextStyle(color: Colors.blue)),
+                  child: const Text(
+                    'Voir plus',
+                    style: TextStyle(color: Colors.blue),
+                  ),
                 ),
               ],
             ),
@@ -790,7 +888,8 @@ class CustomDesktopIcon extends StatelessWidget {
           transitionDuration: const Duration(milliseconds: 400),
           pageBuilder: (_, __, ___) => MacOSProjectWindow(
             title: 'Tous les projets',
-            content: getAllProjects(), // <-- automatiquement récupéré depuis all_projects_data.dart
+            content:
+                getAllProjects(), // <-- automatiquement récupéré depuis all_projects_data.dart
           ),
           transitionsBuilder: (_, animation, __, child) {
             return ScaleTransition(
@@ -859,7 +958,10 @@ class CustomDesktopIcon extends StatelessWidget {
                     top: -5,
                     right: -5,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(10),
@@ -908,11 +1010,15 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   Future<void> _getWeather() async {
     if (!await Geolocator.isLocationServiceEnabled()) return;
     LocationPermission perm = await Geolocator.checkPermission();
-    if (perm == LocationPermission.denied) perm = await Geolocator.requestPermission();
-    if (perm == LocationPermission.denied || perm == LocationPermission.deniedForever) return;
+    if (perm == LocationPermission.denied)
+      perm = await Geolocator.requestPermission();
+    if (perm == LocationPermission.denied ||
+        perm == LocationPermission.deniedForever)
+      return;
     Position pos = await Geolocator.getCurrentPosition();
     final url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${pos.latitude}&lon=${pos.longitude}&units=metric&appid=$apiKey');
+      'https://api.openweathermap.org/data/2.5/weather?lat=${pos.latitude}&lon=${pos.longitude}&units=metric&appid=$apiKey',
+    );
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       final d = json.decode(resp.body);
@@ -1054,7 +1160,7 @@ class CalendarDockIcon extends StatelessWidget {
       'SEP',
       'OCT',
       'NOV',
-      'DÉC'
+      'DÉC',
     ];
     return months[month - 1];
   }
