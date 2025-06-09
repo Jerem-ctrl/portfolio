@@ -64,7 +64,7 @@ class _ContactWindowState extends State<ContactWindow> {
                 const SizedBox(height: 20),
                 const CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/images/avatar.png'),
+                  backgroundImage: AssetImage('assets/images/moi1.jpg'),
                 ),
                 const SizedBox(height: 12),
                 const Text(
@@ -81,8 +81,8 @@ class _ContactWindowState extends State<ContactWindow> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _contactIcon(Icons.call, 'appel', () => _launchUrl('tel:+33783645695')),
-                    _contactIcon(Icons.mail, 'mail', () => _launchUrl('https://mail.google.com/mail/?view=cm&to=jeremy@example.com&su=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy')),
-                    _contactIcon(Icons.language, 'web', () => _launchUrl('https://jeremy.dev')),
+                    _contactIcon(Icons.mail, 'mail', () => _launchUrl('https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy')),
+                    _contactIcon(Icons.language, 'web', () => _launchUrl('https://jerem-ctrl.github.io/Mon_portofolio/')),
                     _contactIcon(Icons.share, 'partager', _handleShare),
                   ],
                 ),
@@ -100,7 +100,7 @@ class _ContactWindowState extends State<ContactWindow> {
                 const Divider(color: Colors.white24),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Text('site web  https://jeremy.dev', style: TextStyle(color: Colors.white)),
+                  child: Text('site web\n  https://jerem-ctrl.github.io/Mon_portofolio/', style: TextStyle(color: Colors.white)),
                 ),
                 const Spacer(),
                 TextButton(
@@ -180,7 +180,7 @@ class AboutMeWindow extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            CircleAvatar(radius: 30, backgroundImage: AssetImage('assets/images/avatar.png')),
+            CircleAvatar(radius: 30, backgroundImage: AssetImage('assets/images/moi1.jpg')),
             SizedBox(height: 12),
             Text('Jérémy Girard', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             Text('Etudiant', style: TextStyle(color: Colors.white70)),

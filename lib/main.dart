@@ -388,7 +388,7 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                     CalendarDockIcon(url: 'https://calendly.com/jeremy_girard'),
                     const SizedBox(width: 15),
                     ProfileDockIcon(
-                      imagePath: 'assets/images/ts.jpg',
+                      imagePath: 'assets/images/moi1.jpg',
                       label: 'Me contactez',
                     ),
                   ],
@@ -914,7 +914,7 @@ class CustomDesktopIcon extends StatelessWidget {
     } else if (label == 'Plein écran') {
       html.document.documentElement?.requestFullscreen();
     } else if (label == 'CV') {
-      final url = 'documents/Jérémy_Girard-CV.pdf';
+      final url = 'documents/Jérémy-Girard_CV.pdf';
       html.window.open(url, '_blank');
     } else if (label == 'GitHub') {
       final url = 'https://github.com/Jerem-ctrl';
