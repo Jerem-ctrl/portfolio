@@ -76,8 +76,8 @@ The goal was to build a **portfolio website** to:
 
 📸 *Aperçu du site / Website preview:*  
 
-![Screenshot 1](docs/screen1.png)  
-![Screenshot 2](docs/screen2.png)  
-![Screenshot 3](docs/screen3.png)  
+![Screenshot 1](docs/screen_home.jpeg)  
+![Screenshot 2](docs/screen_projects.jpeg)  
+![Screenshot 3](docs/screen_jobs.jpeg)  
 
 ---
