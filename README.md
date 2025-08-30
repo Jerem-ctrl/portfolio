@@ -1,4 +1,4 @@
-# 🌐 Portfolio Website – Jeremy
+# Portfolio Website – Jeremy
 
 ![Status](https://img.shields.io/badge/Status-Online-brightgreen)  
 ![Focus](https://img.shields.io/badge/Focus-Web%20Dev%20%7C%20Cybersecurity-blue)  
