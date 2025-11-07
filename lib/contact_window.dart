@@ -64,7 +64,7 @@ class _ContactWindowState extends State<ContactWindow> {
                 const SizedBox(height: 20),
                 const CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/images/moi1.jpg'),
+                  backgroundImage: AssetImage('assets/images/moi1.jpeg'),
                 ),
                 const SizedBox(height: 12),
                 const Text(
@@ -180,7 +180,7 @@ class AboutMeWindow extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            CircleAvatar(radius: 30, backgroundImage: AssetImage('assets/images/moi1.jpg')),
+            CircleAvatar(radius: 30, backgroundImage: AssetImage('assets/images/moi1.jpeg')),
             SizedBox(height: 12),
             Text('Jérémy Girard', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             Text('Etudiant', style: TextStyle(color: Colors.white70)),

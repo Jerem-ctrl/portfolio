@@ -18,6 +18,7 @@ import 'package:portofolio/all_projects_data.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('fr_FR', null);
+  await initializeDateFormatting('en_US', null);
   runApp(const MonPortfolio());
 }
 
@@ -41,11 +42,31 @@ class MacOSStyleHome extends StatefulWidget {
   State<MacOSStyleHome> createState() => _MacOSStyleHomeState();
 }
 
+enum Lang { fr, en }
+
+const _menuLabels = {
+  Lang.fr: {
+    'about': 'À propos',
+    'contact': 'Contact',
+    'projects': 'Projets',
+    'skills': 'Compétences',
+    'experience': 'Expérience',
+  },
+  Lang.en: {
+    'about': 'About',
+    'contact': 'Contact',
+    'projects': 'Projects',
+    'skills': 'Skills',
+    'experience': 'Experience',
+  }
+};
+
 class _MacOSStyleHomeState extends State<MacOSStyleHome>
     with SingleTickerProviderStateMixin {
   late Timer _timer;
   late DateTime _currentTime;
   bool _isLoading = true;
+  Lang _lang = Lang.fr;
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -79,6 +100,29 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
     _timer.cancel();
     _controller.dispose();
     super.dispose();
+  }
+
+  Widget _langChip(String label, Lang value) {
+  final bool active = _lang == value;
+  return InkWell(
+    onTap: () => setState(() => _lang = value),
+    child: Container(
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: active ? Colors.white : Colors.white.withOpacity(0.25),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: active ? Colors.black : Colors.white.withOpacity(0.75),
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
   }
 
   PageRouteBuilder _buildProjectWindow(
@@ -121,10 +165,11 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
       );
     }
 
-    final locale = 'fr_FR';
-    final dateFormatter = DateFormat('EEE d MMM HH:mm', locale);
+    final bool isFr = _lang == Lang.fr;
+    final locale = isFr ? 'fr_FR' : 'en_US';
+    final pattern = isFr ? 'EEE d MMM HH:mm' : 'EEE. MMM. d h:mm a';
+    final dateFormatter = DateFormat(pattern, locale);
     final formattedDate = dateFormatter.format(_currentTime);
-    final currentUrl = Uri.base.toString();
 
     return Scaffold(
       body: Container(
@@ -168,13 +213,13 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                       ),
                     ),
                     const SizedBox(width: 12),
-                    _macMenuItem(context, 'À propos', () {
+                    _macMenuItem(context, _menuLabels[_lang]!['about']!, () {
                       showDialog(
                         context: context,
                         builder: (_) => const AboutMeWindow(),
                       );
                     }),
-                    _macMenuItem(context, 'Contact', () {
+                    _macMenuItem(context, _menuLabels[_lang]!['contact']!, () {
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,
@@ -197,21 +242,21 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                         ),
                       );
                     }),
-                    _macMenuItem(context, 'Projets', () {
+                    _macMenuItem(context, _menuLabels[_lang]!['projects']!, () {
                       Navigator.of(context).push(
                         _buildProjectWindow(
                           context,
-                          'Tous les projets',
-                          getAllProjects(),
+                          _lang == Lang.fr ? 'Tous les projets' : 'All Projects',
+                          getAllProjects(_lang),
                         ),
                       );
                     }),
-                    _macMenuItem(context, 'Compétences', () {
+                    _macMenuItem(context, _menuLabels[_lang]!['skills']!, () {
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,
                           transitionDuration: const Duration(milliseconds: 400),
-                          pageBuilder: (_, __, ___) => const CompetenceWindow(),
+                          pageBuilder: (_, __, ___) => CompetenceWindow(lang: _lang),
                           transitionsBuilder: (_, anim, __, child) =>
                               ScaleTransition(
                                 scale: Tween<double>(begin: 0.8, end: 1.0)
@@ -229,12 +274,12 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                         ),
                       );
                     }),
-                    _macMenuItem(context, 'Expérience', () {
+                    _macMenuItem(context, _menuLabels[_lang]!['experience']!, () {
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,
                           transitionDuration: const Duration(milliseconds: 400),
-                          pageBuilder: (_, __, ___) => const ExperienceWindow(),
+                          pageBuilder: (_, __, ___) => ExperienceWindow(lang: _lang),
                           transitionsBuilder: (_, anim, __, child) =>
                               ScaleTransition(
                                 scale: Tween<double>(begin: 0.8, end: 1.0)
@@ -253,24 +298,11 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                       );
                     }),
                     const Spacer(),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: const Text(
-                        'FR',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    Row(
+                      children: [
+                        _langChip('FR', Lang.fr),
+                        _langChip('EN', Lang.en),
+                      ],
                     ),
                     const SizedBox(width: 12),
                     Text(
@@ -288,47 +320,53 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
               child: Column(
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       CustomDesktopIcon(
-                        label: 'Projets',
+                        label: _lang == Lang.fr ? 'Projets' : 'Projects',
                         imagePath: 'assets/images/projetcts.png',
                         badgeText: '8+',
+                        lang: _lang,
                       ),
-                      SizedBox(width: 40),
+                      const SizedBox(width: 40),
                       CustomDesktopIcon(
                         label: 'LinkedIn',
                         imagePath: 'assets/images/linkedin_icon.png',
                         badgeText: '4K+',
+                        lang: _lang,
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
-                    children: const [
+                    children: [
                       CustomDesktopIcon(
-                        label: 'Replit',
+                        label: 'Replit', 
                         imagePath: 'assets/images/replit.png',
                         badgeText: '3',
+                        lang: _lang,
                       ),
-                      SizedBox(width: 40),
+                      const SizedBox(width: 40),
                       CustomDesktopIcon(
-                        label: 'Plein écran',
+                        label: _lang == Lang.fr ? 'Plein écran' : 'Fullscreen',
                         imagePath: 'assets/images/full_screen.png',
+                        lang: _lang,
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
-                    children: const [
+                    children: [
                       CustomDesktopIcon(
-                        label: 'CV',
+                        label: _lang == Lang.fr ? 'CV' : 'Resume',
                         imagePath: 'assets/images/pdf.png',
+                        lang: _lang,
                       ),
-                      SizedBox(width: 40),
+                      const SizedBox(width: 40),
                       CustomDesktopIcon(
-                        label: 'GitHub',
+                        label: 'GitHub', // inchangé (nom propre)
                         imagePath: 'assets/images/github.png',
                         badgeText: '10+',
+                        lang: _lang,
                       ),
                     ],
                   ),
@@ -340,56 +378,51 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
               alignment: Alignment.bottomCenter,
               child: Container(
                 margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      blurRadius: 12,
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 12)],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     DockIconImage(
                       imagePath: 'assets/images/home.png',
-                      label: 'Accueil',
-                      onRefresh: () {
-                        setState(() {
-                          _currentTime = DateTime.now();
-                        });
-                      },
+                      label: _lang == Lang.fr ? 'Accueil' : 'Home',
+                      onRefresh: () => setState(() => _currentTime = DateTime.now()),
                     ),
                     const SizedBox(width: 15),
                     DockIconImage(
                       imagePath: 'assets/images/mail.png',
-                      label: 'Menvoyez un e-mail',
-                      url:
-                          'https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
+                      label: _lang == Lang.fr ? 'Menvoyez un e-mail' : 'Email me',
+                      url: 'https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
                     ),
                     const SizedBox(width: 15),
                     DockIconImage(
                       imagePath: 'assets/images/flutter.png',
-                      label: 'Consultez mes projets de programmation',
+                      label: _lang == Lang.fr
+                          ? 'Consultez mes projets de programmation'
+                          : 'See my programming projects',
                       badgeText: '8+',
                     ),
                     const SizedBox(width: 15),
                     DockIconImage(
                       imagePath: 'assets/images/pct.png',
-                      label: 'Explorez mes projets de réseaux',
+                      label: _lang == Lang.fr
+                          ? 'Explorez mes projets de réseaux'
+                          : 'Browse my networking projects',
                     ),
                     const SizedBox(width: 15),
-                    CalendarDockIcon(url: 'https://calendly.com/jeremy_girard'),
+                    CalendarDockIcon(
+                      url: 'https://calendly.com/jeremy_girard',
+                      tooltip: _lang == Lang.fr ? 'Planifiez' : 'Schedule',
+                      lang: _lang,
+                    ),
                     const SizedBox(width: 15),
                     ProfileDockIcon(
-                      imagePath: 'assets/images/moi1.jpg',
-                      label: 'Me contactez',
+                      imagePath: 'assets/images/moi1.jpeg',
+                      label: _lang == Lang.fr ? 'Me contactez' : 'Contact me',
                     ),
                   ],
                 ),
@@ -432,7 +465,7 @@ class DockIconImage extends StatelessWidget {
   });
 
   void _handleTap(BuildContext context) async {
-    if (label == 'Consultez mes projets de programmation') {
+    if (label == 'Consultez mes projets de programmation' || label == 'See my programming projects') {
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
@@ -534,7 +567,7 @@ class DockIconImage extends StatelessWidget {
           },
         ),
       );
-    } else if (label == 'Explorez mes projets de réseaux') {
+    } else if (label == 'Explorez mes projets de réseaux' || label == 'Browse my networking projects') {
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
@@ -624,7 +657,7 @@ class DockIconImage extends StatelessWidget {
           },
         ),
       );
-    } else if (label == 'Me contactez') {
+    } else if (label == 'Me contactez' || label == 'Contact me') {
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
@@ -640,7 +673,7 @@ class DockIconImage extends StatelessWidget {
           },
         ),
       );
-    } else if (label == 'Accueil') {
+    } else if (label == 'Accueil' || label == 'Home') {
       html.window.location.reload();
     } else if (url != null && await canLaunchUrl(Uri.parse(url!))) {
       await launchUrl(Uri.parse(url!));
@@ -830,6 +863,7 @@ class CustomDesktopIcon extends StatelessWidget {
   final String imagePath;
   final String? badgeText;
   final String? url;
+  final Lang lang;
 
   const CustomDesktopIcon({
     super.key,
@@ -837,6 +871,7 @@ class CustomDesktopIcon extends StatelessWidget {
     required this.imagePath,
     this.badgeText,
     this.url,
+    required this.lang,
   });
 
   void _handleTap(BuildContext context) async {
@@ -881,26 +916,25 @@ class CustomDesktopIcon extends StatelessWidget {
       );
     } else if (url != null && await canLaunchUrl(Uri.parse(url!))) {
       await launchUrl(Uri.parse(url!), webOnlyWindowName: '_blank');
-    } else if (label == 'Projets') {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          opaque: false,
-          transitionDuration: const Duration(milliseconds: 400),
-          pageBuilder: (_, __, ___) => MacOSProjectWindow(
-            title: 'Tous les projets',
-            content:
-                getAllProjects(), // <-- automatiquement récupéré depuis all_projects_data.dart
+    } else if (label == 'Projets' || label == 'Projects') {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            opaque: false,
+            transitionDuration: const Duration(milliseconds: 400),
+            pageBuilder: (_, __, ___) => MacOSProjectWindow(
+              title: lang == Lang.fr ? 'Tous les projets' : 'All Projects',
+              content: getAllProjects(lang),
+            ),
+            transitionsBuilder: (_, animation, __, child) {
+              return ScaleTransition(
+                scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                ),
+                child: FadeTransition(opacity: animation, child: child),
+              );
+            },
           ),
-          transitionsBuilder: (_, animation, __, child) {
-            return ScaleTransition(
-              scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeOut),
-              ),
-              child: FadeTransition(opacity: animation, child: child),
-            );
-          },
-        ),
-      );
+       );
     } else if (label == 'LinkedIn') {
       final url = 'https://www.linkedin.com/in/jérémy-girard-9575a7352';
       if (await canLaunchUrl(Uri.parse(url))) {
@@ -911,9 +945,9 @@ class CustomDesktopIcon extends StatelessWidget {
       if (await canLaunchUrl(Uri.parse(url))) {
         await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
       }
-    } else if (label == 'Plein écran') {
+    } else if (label == 'Plein écran' || label == 'Fullscreen') {
       html.document.documentElement?.requestFullscreen();
-    } else if (label == 'CV') {
+    } else if (label == 'CV' || label == 'Resume') {
       final url = 'documents/Jérémy-Girard_CV.pdf';
       html.window.open(url, '_blank');
     } else if (label == 'GitHub') {
@@ -1086,8 +1120,10 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
 class CalendarDockIcon extends StatelessWidget {
   final String? url;
+  final String? tooltip;
+  final Lang lang;
 
-  const CalendarDockIcon({super.key, this.url});
+  const CalendarDockIcon({super.key, this.url, this.tooltip, required this.lang,});
 
   void _handleTap() async {
     if (url != null && await canLaunchUrl(Uri.parse(url!))) {
@@ -1102,7 +1138,7 @@ class CalendarDockIcon extends StatelessWidget {
     final month = _getMonthShortName(now.month);
 
     return Tooltip(
-      message: 'Planifiez',
+      message: tooltip ?? 'Planifiez',
       textStyle: const TextStyle(color: Colors.white, fontSize: 12),
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.8),
@@ -1146,22 +1182,19 @@ class CalendarDockIcon extends StatelessWidget {
       ),
     );
   }
-
   String _getMonthShortName(int month) {
-    const months = [
-      'JAN',
-      'FÉV',
-      'MAR',
-      'AVR',
-      'MAI',
-      'JUN',
-      'JUL',
-      'AOÛ',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DÉC',
-    ];
-    return months[month - 1];
+    if (lang == Lang.en) {
+      const monthsEn = [
+        'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
+        'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
+      ];
+      return monthsEn[month - 1];
+    } else {
+      const monthsFr = [
+        'JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN',
+        'JUL', 'AOÛ', 'SEP', 'OCT', 'NOV', 'DÉC'
+      ];
+      return monthsFr[month - 1];
+    }
   }
 }
