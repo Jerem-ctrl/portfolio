@@ -948,7 +948,7 @@ class CustomDesktopIcon extends StatelessWidget {
     } else if (label == 'Plein écran' || label == 'Fullscreen') {
       html.document.documentElement?.requestFullscreen();
     } else if (label == 'CV' || label == 'Resume') {
-      final url = 'documents/Jérémy-Girard_CV.pdf';
+      final url = 'portfolio/documents/Jérémy-Girard_CV.pdf';
       html.window.open(url, '_blank');
     } else if (label == 'GitHub') {
       final url = 'https://github.com/Jerem-ctrl';
