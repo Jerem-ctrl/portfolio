@@ -69253,7 +69253,7 @@ s=A.aE(250,B.ee.v()>>>16&255,B.ee.v()>>>8&255,B.ee.v()&255)
 r=A.cr(16)
 q=A.a([new A.cZ(4,B.cc,A.aE(B.d.am(127.5),B.i.v()>>>16&255,B.i.v()>>>8&255,B.i.v()&255),B.k,24)],t.V)
 p=t.p
-return A.tZ(A.vZ(B.a8,!0,A.ahz(new A.bK(B.K9,A.eK(A.a([A.ey(A.a([o.y3(B.IW,new A.aab(a)),B.lz,o.y3(B.J2,new A.aac(o)),B.lz,o.y3(B.IC,new A.aad(o)),B.lA,B.a6h],p),B.J,B.U),B.cX,B.HN,B.eZ,B.a6s,B.iq,B.a6p,B.cX,A.ey(A.a([o.rh(B.Kz,"appel",new A.aae(o)),o.rh(B.KE,"mail",new A.aaf(o)),o.rh(B.KC,"web",new A.aag(o)),o.rh(B.KF,"partager",o.gYy())],p),B.kI,B.U),B.cX,B.jn,B.YU,B.jn,B.YV,B.jn,B.YT,B.lA,A.a7j(!1,B.Fh,n,n,n,n,n,n,new A.aah(a),n,A.aj3(n,n,B.da,n,n,n,n,n,n,n,n,n,B.Ka,n,new A.cp(A.cr(10),B.t),n,n,n,n,n))],p),B.aE,B.J,B.U),n),n,new A.by(s,n,n,r,q,n,B.T),B.br,n,m,l),B.u,B.K,0,n,n,n,n,n,B.dC),n,n)},
+return A.tZ(A.vZ(B.a8,!0,A.ahz(new A.bK(B.K9,A.eK(A.a([A.ey(A.a([o.y3(B.IW,new A.aab(a)),B.lz,o.y3(B.J2,new A.aac(o)),B.lz,o.y3(B.IC,new A.aad(o)),B.lA,B.a6h],p),B.J,B.U),B.cX,B.HN,B.eZ,B.a6s,B.iq,B.a6o,B.cX,A.ey(A.a([o.rh(B.Kz,"appel",new A.aae(o)),o.rh(B.KE,"mail",new A.aaf(o)),o.rh(B.KC,"web",new A.aag(o)),o.rh(B.KF,"partager",o.gYy())],p),B.kI,B.U),B.cX,B.jn,B.YT,B.jn,B.YU,B.jn,B.YV,B.lA,A.a7j(!1,B.Fh,n,n,n,n,n,n,new A.aah(a),n,A.aj3(n,n,B.da,n,n,n,n,n,n,n,n,n,B.Ka,n,new A.cp(A.cr(10),B.t),n,n,n,n,n))],p),B.aE,B.J,B.U),n),n,new A.by(s,n,n,r,q,n,B.T),B.br,n,m,l),B.u,B.K,0,n,n,n,n,n,B.dC),n,n)},
 rh(a,b,c){var s=null
 return A.eK(A.a([A.kD(!1,A.cr(25),!0,A.alh(B.cT,s,A.awE(a,B.j,s),20),s,!0,s,s,s,s,s,s,s,s,c,s,s,s,s),B.ct,A.bE(b,s,s,B.c0,s)],t.p),B.aE,B.J,B.U)},
 y3(a,b){var s=null,r=new A.ce(A.aE(B.d.am(25.5),B.i.v()>>>16&255,B.i.v()>>>8&255,B.i.v()&255),1,B.a3,-1)
@@ -69283,7 +69283,7 @@ A.aaf.prototype={
 $0(){return this.a.jF(u.bh)},
 $S:0}
 A.aag.prototype={
-$0(){return this.a.jF("https://jerem-ctrl.github.io/Mon_portfolio/")},
+$0(){return this.a.jF("https://jerem-ctrl.github.io/Mon_portofolio/")},
 $S:0}
 A.aah.prototype={
 $0(){return A.Cd(null,new A.aa8(),this.a,t.z)},
@@ -69606,7 +69606,7 @@ s=23
 break
 case 24:s=n==="CV"||n==="Resume"?25:27
 break
-case 25:p=A.Jb().a2("documents/J\xe9r\xe9my-Girard_CV.pdf").j(0)
+case 25:p=A.Jb().a2("documents/cv-jeremy-girard.pdf").j(0)
 o=window.open(p,"_blank")
 A.aAj(o)
 s=26
@@ -69747,7 +69747,7 @@ k=A.a([A.bE(k.c,o,o,B.a3X,o),B.iq,A.bE(k.d,o,o,B.lI,o),B.a16,A.bE(k.f,o,o,B.a39,
 p.a.toString
 B.b.J(k,A.a([B.cX,A.azG(B.KI,B.a6u,new A.ads(p))],m))
 p.a.toString
-s=A.a([B.dR,B.a6q,B.EZ],m)
+s=A.a([B.dR,B.a6p,B.EZ],m)
 for(r=p.a.x,q=0;q<4;++q)s.push(new A.bK(B.K2,A.ey(A.a([B.KJ,B.lz,new A.v0(1,B.jW,A.bE(r[q],o,o,B.b7,o),o)],m),B.J,B.U),o))
 B.b.J(k,s)
 s=p.a.w.length
@@ -74339,11 +74339,11 @@ B.a6g=new A.cJ("J\xe9r\xe9my Girard",null,B.lH,null,null,null,null)
 B.a6t=new A.cJ("Etudiant",null,B.b7,null,null,null,null)
 B.dR=new A.cV(null,24,null,null)
 B.c0=new A.j(!0,B.j,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a6n=new A.cJ("\ud83c\udf93 \xc9tudiant en R\xe9seaux et T\xe9l\xe9communications \xe0 l\u2019Universit\xe9 C\xf4te d\u2019Azur, je d\xe9veloppe mes comp\xe9tences en programmation, cybers\xe9curit\xe9 et gestion des r\xe9seaux. Passionn\xe9 par les nouvelles technologies, je suis en qu\xeate constante d\u2019apprentissage pour approfondir mes connaissances dans ces diff\xe9rents domaines.",null,B.c0,null,null,null,null)
-B.FR=new A.em(B.f8,null,null,B.a6n,null)
+B.a6m=new A.cJ("\ud83c\udf93 \xc9tudiant en R\xe9seaux et T\xe9l\xe9communications \xe0 l\u2019Universit\xe9 C\xf4te d\u2019Azur, je d\xe9veloppe mes comp\xe9tences en programmation, cybers\xe9curit\xe9 et gestion des r\xe9seaux. Passionn\xe9 par les nouvelles technologies, je suis en qu\xeate constante d\u2019apprentissage pour approfondir mes connaissances dans ces diff\xe9rents domaines.",null,B.c0,null,null,null,null)
+B.FR=new A.em(B.f8,null,null,B.a6m,null)
 B.cX=new A.cV(null,20,null,null)
-B.a6o=new A.cJ("\ud83d\udca1 Curieux, autonome et rigoureux, je cherche \xe0 \xe9voluer dans les domaines des r\xe9seaux et de la cybers\xe9curit\xe9 en mettant \xe0 profit mes comp\xe9tences techniques et ma curiosit\xe9.",null,B.c0,null,null,null,null)
-B.FS=new A.em(B.f8,null,null,B.a6o,null)
+B.a6n=new A.cJ("\ud83d\udca1 Curieux, autonome et rigoureux, je cherche \xe0 \xe9voluer dans les domaines des r\xe9seaux et de la cybers\xe9curit\xe9 en mettant \xe0 profit mes comp\xe9tences techniques et ma curiosit\xe9.",null,B.c0,null,null,null,null)
+B.FS=new A.em(B.f8,null,null,B.a6n,null)
 B.Q6=A.a(s([B.HO,B.eZ,B.a6g,B.a6t,B.dR,B.FR,B.cX,B.FS]),t.p)
 B.Q7=A.a(s(["JAN","F\xc9V","MAR","AVR","MAI","JUN","JUL","AO\xdb","SEP","OCT","NOV","D\xc9C"]),t.s)
 B.qH=A.a(s(["\u091c","\u092b\u093c","\u092e\u093e","\u0905","\u092e","\u091c\u0942","\u091c\u0941","\u0905","\u0938\u093f","\u0905","\u0928","\u0926\u093f"]),t.s)
@@ -75990,12 +75990,12 @@ B.YQ=new A.Go(1,"landscape")
 B.YR=new A.wz(null)
 B.a8M=new A.Gr(0,"start")
 B.YS=new A.Gr(1,"end")
-B.a6m=new A.cJ("site web\n  https://jerem-ctrl.github.io/Mon_portfolio/",null,B.c0,null,null,null,null)
-B.YT=new A.bK(B.fx,B.a6m,null)
 B.a6i=new A.cJ("t\xe9l\xe9phone   +33 7 83 64 56 95",null,B.c0,null,null,null,null)
-B.YU=new A.bK(B.fx,B.a6i,null)
+B.YT=new A.bK(B.fx,B.a6i,null)
 B.a6l=new A.cJ("email   jeremy.girard@etu.unice.fr",null,B.c0,null,null,null,null)
-B.YV=new A.bK(B.fx,B.a6l,null)
+B.YU=new A.bK(B.fx,B.a6l,null)
+B.a6q=new A.cJ("site web\n  https://jerem-ctrl.github.io/Mon_portofolio/",null,B.c0,null,null,null,null)
+B.YV=new A.bK(B.fx,B.a6q,null)
 B.cp=new A.Gw(0,"fill")
 B.bE=new A.Gw(1,"stroke")
 B.YW=new A.l_(1/0)
@@ -76652,8 +76652,8 @@ B.a6j=new A.cJ("  Finder",null,B.a5g,null,null,null,null)
 B.Fg=new A.cJ("Voir plus",null,B.c0,null,null,null,null)
 B.a6k=new A.cJ("Galerie:",null,B.it,null,null,null,null)
 B.a1Y=new A.j(!0,B.F,null,null,null,null,16,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a6p=new A.cJ("Etudiant",null,B.a1Y,null,null,null,null)
-B.a6q=new A.cJ("Comp\xe9tences acquises:",null,B.it,null,null,null,null)
+B.a6o=new A.cJ("Etudiant",null,B.a1Y,null,null,null,null)
+B.a6p=new A.cJ("Comp\xe9tences acquises:",null,B.it,null,null,null,null)
 B.a6s=new A.cJ("J\xe9r\xe9my Girard",null,B.Fc,null,null,null,null)
 B.Fh=new A.cJ("\xc0 propos de moi",null,B.c0,null,null,null,null)
 B.a4C=new A.j(!0,B.cT,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
