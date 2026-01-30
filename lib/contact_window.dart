@@ -32,7 +32,9 @@ class _ContactWindowState extends State<ContactWindow> {
         color: Colors.transparent,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          width: _isMaximized ? 440 : 380,
+          width: _isMaximized 
+            ? MediaQuery.of(context).size.width 
+            : (MediaQuery.of(context).size.width < 400 ? MediaQuery.of(context).size.width * 0.9 : 380),
           height: _isMaximized ? 600 : 560,
           decoration: BoxDecoration(
             color: const Color(0xFF1E1E1E).withOpacity(0.98),

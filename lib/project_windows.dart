@@ -27,37 +27,57 @@ class FeaturedProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Détection si l'écran est petit (Mobile)
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Container(
-        height: 200,
+        // Hauteur automatique sur mobile pour éviter les erreurs de pixels
+        height: isMobile ? null : 200,
         decoration: BoxDecoration(
           color: const Color(0xFF2A2A2A),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Row(
+        // Passage de Row (Ligne) à Column (Colonne) selon la taille de l'écran
+        child: Flex(
+          direction: isMobile ? Axis.vertical : Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Texte à gauche
+            // SUR MOBILE : On met l'image en premier en haut
+            if (isMobile)
+              SizedBox(
+                height: 200,
+                child: _buildImage(context),
+              ),
+
+            // LA PARTIE TEXTE
             Expanded(
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(title,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 22,
-                            fontWeight: FontWeight.bold), maxLines: 2, overflow: TextOverflow.ellipsis),
+                            fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 4),
                     Text(category,
-                        style: const TextStyle(color: Colors.white54), maxLines: 1, overflow: TextOverflow.ellipsis),
+                        style: const TextStyle(color: Colors.white54),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 12),
                     Text(shortDescription,
-                        style: const TextStyle(color: Colors.white70), maxLines: 3, overflow: TextOverflow.ellipsis),
+                        style: const TextStyle(color: Colors.white70),
+                        maxLines: isMobile ? 10 : 3, // Plus de texte visible sur mobile
+                        overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 12),
+                    // Ton bouton existant
                     TextButton(
                       onPressed: () {
                         showDialog(
@@ -70,85 +90,55 @@ class FeaturedProjectCard extends StatelessWidget {
                             image: image,
                             gallery: gallery,
                             competencies: competencies,
-                            onImageTap: (String imagePath) {
-                              showDialog(
-                                context: context,
-                                barrierColor: Colors.black.withOpacity(0.4),
-                                builder: (_) => Dialog(
-                                  backgroundColor: Colors.transparent,
-                                  insetPadding: const EdgeInsets.all(20),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Stack(
-                                      alignment: Alignment.topRight,
-                                      children: [
-                                        Image.asset(imagePath, fit: BoxFit.contain),
-                                        IconButton(
-                                          icon: const Icon(Icons.close, color: Colors.white),
-                                          onPressed: () => Navigator.of(context).pop(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                            onImageTap: (String imagePath) {}, 
                             githubUrl: githubUrl,
                           ),
                         );
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                       ),
-                      child: const Text("Voir plus",
-                          style: TextStyle(color: Colors.white)),
+                      child: const Text("Voir plus", style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
               ),
             ),
 
-            // Image à droite avec fondu
-            Flexible(
-              flex: 2,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      image,
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Colors.transparent,
-                            const Color(0xFF2A2A2A).withOpacity(0.6),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            // SUR PC : L'image est à droite
+            if (!isMobile)
+              Flexible(
+                flex: 2,
+                child: _buildImage(context),
               ),
-            ),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildImage(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(12)),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(image, fit: BoxFit.cover),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Colors.transparent, const Color(0xFF2A2A2A).withOpacity(0.6)],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
-
-
 class MacOSProjectWindow extends StatefulWidget {
   final String title;
   final List<Widget> content;

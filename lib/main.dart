@@ -1,9 +1,12 @@
+// [file name]: main.dart
+// [file content begin]
+
+import 'package:flutter/foundation.dart'; // Pour kIsWeb
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html' as html;
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -170,17 +173,18 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
     final pattern = isFr ? 'EEE d MMM HH:mm' : 'EEE. MMM. d h:mm a';
     final dateFormatter = DateFormat(pattern, locale);
     final formattedDate = dateFormatter.format(_currentTime);
-
+    
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
+            image: DecorationImage(
             image: AssetImage('assets/images/background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
         child: Stack(
           children: [
+            // BARRE DE MENU macOS - UN SEUL POSITIONED !
             Positioned(
               top: 0,
               left: 0,
@@ -190,130 +194,116 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.8),
                   border: Border(
-                    bottom: BorderSide(
-                      color: Colors.black.withOpacity(0.2),
-                      width: 1,
-                    ),
+                    bottom: BorderSide(color: Colors.black.withOpacity(0.2), width: 1),
                   ),
                 ),
                 child: Row(
                   children: [
-                    const SizedBox(width: 10),
-                    const Image(
-                      image: AssetImage('assets/images/apple_logo.png'),
-                      height: 25,
-                      width: 25,
-                    ),
-                    const Text(
-                      '  Finder',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    // PARTIE GAUCHE
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            const Image(
+                              image: AssetImage('assets/images/apple_logo.png'),
+                              height: 25,
+                              width: 25,
+                            ),
+                            const Text(
+                              '  Finder',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            _macMenuItem(context, _menuLabels[_lang]!['about']!, () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => const AboutMeWindow(),
+                              );
+                            }),
+                            _macMenuItem(context, _menuLabels[_lang]!['contact']!, () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  transitionDuration: const Duration(milliseconds: 400),
+                                  pageBuilder: (_, __, ___) => const ContactWindow(),
+                                  transitionsBuilder: (_, anim, __, child) => ScaleTransition(
+                                    scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                                      CurvedAnimation(parent: anim, curve: Curves.easeOut),
+                                    ),
+                                    child: FadeTransition(opacity: anim, child: child),
+                                  ),
+                                ),
+                              );
+                            }),
+                            _macMenuItem(context, _menuLabels[_lang]!['projects']!, () {
+                              Navigator.of(context).push(
+                                _buildProjectWindow(
+                                  context,
+                                  _lang == Lang.fr ? 'Tous les projets' : 'All Projects',
+                                  getAllProjects(_lang),
+                                ),
+                              );
+                            }),
+                            _macMenuItem(context, _menuLabels[_lang]!['skills']!, () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  transitionDuration: const Duration(milliseconds: 400),
+                                  pageBuilder: (_, __, ___) => CompetenceWindow(lang: _lang),
+                                  transitionsBuilder: (_, anim, __, child) => ScaleTransition(
+                                    scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                                      CurvedAnimation(parent: anim, curve: Curves.easeOut),
+                                    ),
+                                    child: FadeTransition(opacity: anim, child: child),
+                                  ),
+                                ),
+                              );
+                            }),
+                            _macMenuItem(context, _menuLabels[_lang]!['experience']!, () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  transitionDuration: const Duration(milliseconds: 400),
+                                  pageBuilder: (_, __, ___) => ExperienceWindow(lang: _lang),
+                                  transitionsBuilder: (_, anim, __, child) => ScaleTransition(
+                                    scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                                      CurvedAnimation(parent: anim, curve: Curves.easeOut),
+                                    ),
+                                    child: FadeTransition(opacity: anim, child: child),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    _macMenuItem(context, _menuLabels[_lang]!['about']!, () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => const AboutMeWindow(),
-                      );
-                    }),
-                    _macMenuItem(context, _menuLabels[_lang]!['contact']!, () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          transitionDuration: const Duration(milliseconds: 400),
-                          pageBuilder: (_, __, ___) => const ContactWindow(),
-                          transitionsBuilder: (_, anim, __, child) =>
-                              ScaleTransition(
-                                scale: Tween<double>(begin: 0.8, end: 1.0)
-                                    .animate(
-                                      CurvedAnimation(
-                                        parent: anim,
-                                        curve: Curves.easeOut,
-                                      ),
-                                    ),
-                                child: FadeTransition(
-                                  opacity: anim,
-                                  child: child,
-                                ),
-                              ),
-                        ),
-                      );
-                    }),
-                    _macMenuItem(context, _menuLabels[_lang]!['projects']!, () {
-                      Navigator.of(context).push(
-                        _buildProjectWindow(
-                          context,
-                          _lang == Lang.fr ? 'Tous les projets' : 'All Projects',
-                          getAllProjects(_lang),
-                        ),
-                      );
-                    }),
-                    _macMenuItem(context, _menuLabels[_lang]!['skills']!, () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          transitionDuration: const Duration(milliseconds: 400),
-                          pageBuilder: (_, __, ___) => CompetenceWindow(lang: _lang),
-                          transitionsBuilder: (_, anim, __, child) =>
-                              ScaleTransition(
-                                scale: Tween<double>(begin: 0.8, end: 1.0)
-                                    .animate(
-                                      CurvedAnimation(
-                                        parent: anim,
-                                        curve: Curves.easeOut,
-                                      ),
-                                    ),
-                                child: FadeTransition(
-                                  opacity: anim,
-                                  child: child,
-                                ),
-                              ),
-                        ),
-                      );
-                    }),
-                    _macMenuItem(context, _menuLabels[_lang]!['experience']!, () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          transitionDuration: const Duration(milliseconds: 400),
-                          pageBuilder: (_, __, ___) => ExperienceWindow(lang: _lang),
-                          transitionsBuilder: (_, anim, __, child) =>
-                              ScaleTransition(
-                                scale: Tween<double>(begin: 0.8, end: 1.0)
-                                    .animate(
-                                      CurvedAnimation(
-                                        parent: anim,
-                                        curve: Curves.easeOut,
-                                      ),
-                                    ),
-                                child: FadeTransition(
-                                  opacity: anim,
-                                  child: child,
-                                ),
-                              ),
-                        ),
-                      );
-                    }),
-                    const Spacer(),
+                    
+                    // PARTIE DROITE
                     Row(
                       children: [
                         _langChip('FR', Lang.fr),
                         _langChip('EN', Lang.en),
+                        const SizedBox(width: 12),
+                        Text(
+                          formattedDate,
+                          style: const TextStyle(color: Colors.white, fontSize: 13),
+                        ),
+                        const SizedBox(width: 16),
                       ],
                     ),
-                    const SizedBox(width: 12),
-                    Text(
-                      formattedDate,
-                      style: const TextStyle(color: Colors.white, fontSize: 13),
-                    ),
-                    const SizedBox(width: 16),
                   ],
                 ),
               ),
             ),
+            
+            // ICÔNES DU BUREAU
             Positioned(
               top: 60,
               left: 30,
@@ -363,7 +353,7 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                       ),
                       const SizedBox(width: 40),
                       CustomDesktopIcon(
-                        label: 'GitHub', // inchangé (nom propre)
+                        label: 'GitHub',
                         imagePath: 'assets/images/github.png',
                         badgeText: '10+',
                         lang: _lang,
@@ -373,7 +363,16 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                 ],
               ),
             ),
-            const Positioned(top: 50, right: 20, child: WeatherWidget()),
+            
+            // MÉTÉO (SEULEMENT SUR GRAND ÉCRAN)
+            if (MediaQuery.of(context).size.width > 600)
+              Positioned(
+                top: 50,
+                right: 20,
+                child: WeatherWidget(),
+              ),
+            
+            // DOCK EN BAS
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -384,47 +383,50 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 12)],
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    DockIconImage(
-                      imagePath: 'assets/images/home.png',
-                      label: _lang == Lang.fr ? 'Accueil' : 'Home',
-                      onRefresh: () => setState(() => _currentTime = DateTime.now()),
-                    ),
-                    const SizedBox(width: 15),
-                    DockIconImage(
-                      imagePath: 'assets/images/mail.png',
-                      label: _lang == Lang.fr ? 'Menvoyez un e-mail' : 'Email me',
-                      url: 'https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
-                    ),
-                    const SizedBox(width: 15),
-                    DockIconImage(
-                      imagePath: 'assets/images/flutter.png',
-                      label: _lang == Lang.fr
-                          ? 'Consultez mes projets de programmation'
-                          : 'See my programming projects',
-                      badgeText: '8+',
-                    ),
-                    const SizedBox(width: 15),
-                    DockIconImage(
-                      imagePath: 'assets/images/pct.png',
-                      label: _lang == Lang.fr
-                          ? 'Explorez mes projets de réseaux'
-                          : 'Browse my networking projects',
-                    ),
-                    const SizedBox(width: 15),
-                    CalendarDockIcon(
-                      url: 'https://calendly.com/jeremy_girard',
-                      tooltip: _lang == Lang.fr ? 'Planifiez' : 'Schedule',
-                      lang: _lang,
-                    ),
-                    const SizedBox(width: 15),
-                    ProfileDockIcon(
-                      imagePath: 'assets/images/moi1.jpeg',
-                      label: _lang == Lang.fr ? 'Me contactez' : 'Contact me',
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DockIconImage(
+                        imagePath: 'assets/images/home.png',
+                        label: _lang == Lang.fr ? 'Accueil' : 'Home',
+                        onRefresh: () => setState(() => _currentTime = DateTime.now()),
+                      ),
+                      const SizedBox(width: 15),
+                      DockIconImage(
+                        imagePath: 'assets/images/mail.png',
+                        label: _lang == Lang.fr ? 'Menvoyez un e-mail' : 'Email me',
+                        url: 'https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
+                      ),
+                      const SizedBox(width: 15),
+                      DockIconImage(
+                        imagePath: 'assets/images/flutter.png',
+                        label: _lang == Lang.fr
+                            ? 'Consultez mes projets de programmation'
+                            : 'See my programming projects',
+                        badgeText: '8+',
+                      ),
+                      const SizedBox(width: 15),
+                      DockIconImage(
+                        imagePath: 'assets/images/pct.png',
+                        label: _lang == Lang.fr
+                            ? 'Explorez mes projets de réseaux'
+                            : 'Browse my networking projects',
+                      ),
+                      const SizedBox(width: 15),
+                      CalendarDockIcon(
+                        url: 'https://calendly.com/jeremy_girard',
+                        tooltip: _lang == Lang.fr ? 'Planifiez' : 'Schedule',
+                        lang: _lang,
+                      ),
+                      const SizedBox(width: 15),
+                      ProfileDockIcon(
+                        imagePath: 'assets/images/moi1.jpeg',
+                        label: _lang == Lang.fr ? 'Me contactez' : 'Contact me',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -674,7 +676,7 @@ class DockIconImage extends StatelessWidget {
         ),
       );
     } else if (label == 'Accueil' || label == 'Home') {
-      html.window.location.reload();
+      if (onRefresh != null) onRefresh!();
     } else if (url != null && await canLaunchUrl(Uri.parse(url!))) {
       await launchUrl(Uri.parse(url!));
     }
@@ -746,7 +748,6 @@ class DockIconImage extends StatelessWidget {
     );
   }
 }
-
 class ProfileDockIcon extends StatelessWidget {
   final String imagePath;
   final String? label;
@@ -915,45 +916,60 @@ class CustomDesktopIcon extends StatelessWidget {
         ),
       );
     } else if (url != null && await canLaunchUrl(Uri.parse(url!))) {
-      await launchUrl(Uri.parse(url!), webOnlyWindowName: '_blank');
+      await launchUrl(Uri.parse(url!), mode: LaunchMode.externalApplication);
     } else if (label == 'Projets' || label == 'Projects') {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            opaque: false,
-            transitionDuration: const Duration(milliseconds: 400),
-            pageBuilder: (_, __, ___) => MacOSProjectWindow(
-              title: lang == Lang.fr ? 'Tous les projets' : 'All Projects',
-              content: getAllProjects(lang),
-            ),
-            transitionsBuilder: (_, animation, __, child) {
-              return ScaleTransition(
-                scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-                  CurvedAnimation(parent: animation, curve: Curves.easeOut),
-                ),
-                child: FadeTransition(opacity: animation, child: child),
-              );
-            },
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          transitionDuration: const Duration(milliseconds: 400),
+          pageBuilder: (_, __, ___) => MacOSProjectWindow(
+            title: lang == Lang.fr ? 'Tous les projets' : 'All Projects',
+            content: getAllProjects(lang),
           ),
-       );
+          transitionsBuilder: (_, animation, __, child) {
+            return ScaleTransition(
+              scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeOut),
+              ),
+              child: FadeTransition(opacity: animation, child: child),
+            );
+          },
+        ),
+      );
     } else if (label == 'LinkedIn') {
       final url = 'https://www.linkedin.com/in/jérémy-girard-9575a7352';
       if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       }
     } else if (label == 'Replit') {
       final url = 'https://replit.com/@Jeremy2077';
       if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       }
     } else if (label == 'Plein écran' || label == 'Fullscreen') {
-      html.document.documentElement?.requestFullscreen();
+      // Version compatible mobile sans dart:html
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(label == 'Plein écran'
+              ? 'Le plein écran est géré automatiquement sur mobile'
+              : 'Fullscreen is handled automatically on mobile'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     } else if (label == 'CV' || label == 'Resume') {
-      final url = 'portfolio/documents/Jérémy-Girard_CV.pdf';
-      html.window.open(url, '_blank');
+      const url =
+          'https://Jerem-ctrl.github.io/web/documents/cv_jeremy.pdf';
+      if (await canLaunchUrl(Uri.parse(url))) {
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Impossible d\'ouvrir le CV / Cannot open Resume')),
+        );
+      }
     } else if (label == 'GitHub') {
       final url = 'https://github.com/Jerem-ctrl';
       if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       }
     }
   }
@@ -1020,7 +1036,6 @@ class CustomDesktopIcon extends StatelessWidget {
     );
   }
 }
-
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({super.key});
   @override
