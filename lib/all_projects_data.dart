@@ -9,8 +9,70 @@ List<Widget> getAllProjects(Lang lang) {
 
   return [
     // === INITIATIVE PROGRAMMATION ===
+
     FeaturedProjectCard(
-      title: "🔊 HighDef",
+      title: tr("🛡️ Audit & Pentest Infrastructure Docker", 
+                "🛡️ Docker Infrastructure Audit & Pentest"),
+      category: tr("Cybersécurité & Sécurité Offensive", 
+                   "Cybersecurity & Offensive Security"),
+      shortDescription: tr(
+        "Test d'intrusion (Pentest) en boîte noire : exploitation de failles critiques (RCE), pivot réseau et exfiltration de données.",
+        "Black-box penetration test: exploitation of critical vulnerabilities (RCE), network pivoting, and data exfiltration.",
+      ),
+      fullDescription: tr(
+        "Dans le cadre d'une mission de sécurité offensive, j'ai réalisé un audit complet d'une infrastructure conteneurisée (Docker). L'objectif était d'éprouver la résistance du système face à une attaque externe sans information préalable (Boîte Noire).\n\n"
+        "Le scénario d'attaque s'est déroulé en plusieurs phases techniques :\n"
+        "• Reconnaissance : Identification des services via Nmap, révélant un serveur de fichiers vulnérable.\n"
+        "• Exploitation : Utilisation de la vulnérabilité 'SambaCry' (CVE-2017-7494) via Metasploit pour obtenir un accès Root à distance.\n"
+        "• Mouvement Latéral (Pivot) : Mise en place d'un tunnel SSH pour contourner la segmentation réseau et atteindre la zone interne protégée.\n"
+        "• Compromission Finale : Attaque de l'application web interne et exfiltration de la base de données clients.\n\n"
+        "Ce projet a abouti à la rédaction d'un rapport d'audit professionnel incluant l'analyse des risques et des recommandations de durcissement (Hardening).",
+        
+        "As part of an offensive security mission, I conducted a comprehensive audit of a containerized infrastructure (Docker). The goal was to test system resilience against an external attack with zero prior knowledge (Black Box).\n\n"
+        "The attack scenario involved several technical phases:\n"
+        "• Reconnaissance: Service identification via Nmap, revealing a vulnerable file server.\n"
+        "• Exploitation: Leveraging the 'SambaCry' vulnerability (CVE-2017-7494) via Metasploit to gain remote Root access.\n"
+        "• Lateral Movement (Pivoting): Establishing an SSH tunnel to bypass network segmentation and reach the protected internal zone.\n"
+        "• Final Compromise: Attacking the internal web application and exfiltrating the client database.\n\n"
+        "This project concluded with a professional audit report including risk analysis and hardening recommendations."
+      ),
+      image: "assets/images/pentest_docker_cover.webp", // Mets l'image du schéma d'architecture ici
+      gallery: [
+        "assets/images/Sae34Presentation.png",
+        "assets/images/Sae34Sommaire.png",
+        "assets/images/Sae34Perimetre01.png",
+        "assets/images/Sae34Perimetre02.png",
+        "assets/images/Sae34CompromissionInitial01.png",
+        "assets/images/Sae34CompromissionInitial02.png",
+        "assets/images/Sae34Pivotage01.png",
+        "assets/images/Sae34Pivotage02.png",
+        "assets/images/Sae34CompromissionAppWeb01.png",
+        "assets/images/Sae34CompromissionAppWeb02.png",
+        "assets/images/Sae34CompromissionAppWeb03.png",
+        "assets/images/Sae34CompromissionAppWeb04.png",
+        "assets/images/Sae34Recommandation01.png",
+        "assets/images/Sae34Recommandation02.png",
+        "assets/images/Sae34Conclusion.png",
+      ],
+      competencies: [
+        tr("Test d'intrusion & Audit (Black Box)", 
+           "Penetration Testing & Auditing (Black Box)"),
+        tr("Exploitation de vulnérabilités (SambaCry, RCE)", 
+           "Vulnerability Exploitation (SambaCry, RCE)"),
+        tr("Mouvement latéral & Pivot réseau (SSH Tunneling)", 
+           "Lateral Movement & Network Pivoting (SSH Tunneling)"),
+        tr("Rédaction de rapports d'audit & Recommandations", 
+           "Audit Reporting & Remediation Recommendations"),
+        tr("Outils : Metasploit, Nmap, Wireshark, Docker", 
+           "Tools: Metasploit, Nmap, Wireshark, Docker"),
+      ],
+      // J'ai mis un lien générique, pense à créer le repo sur ton GitHub si tu veux partager le rapport
+      githubUrl: "https://jerem-ctrl.github.io/portfolio/pentest_docker/index.html",
+    ),
+    const SizedBox(height: 24),
+
+    StandardProjectCard(
+      title: "HighDef",
       category: tr("Traitement du signal", "Signal processing"),
       shortDescription: tr("Mesure rapide d’un signal audio.",
                           "Fast measurement of an audio signal."),

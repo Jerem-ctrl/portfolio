@@ -64,18 +64,25 @@ class _ProjectDetailWindowState extends State<ProjectDetailWindow> {
                     Positioned(
                       left: 10,
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                           showImageViewer(index - 1);
                         },
                       ),
                     ),
-                  if (widget.gallery.length > 1 && index < widget.gallery.length - 1)
+                  if (widget.gallery.length > 1 &&
+                      index < widget.gallery.length - 1)
                     Positioned(
                       right: 10,
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                           showImageViewer(index + 1);
@@ -151,13 +158,23 @@ class _ProjectDetailWindowState extends State<ProjectDetailWindow> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Text(widget.title, style: const TextStyle(color: Colors.white70)),
+                  Text(
+                    widget.title,
+                    style: const TextStyle(color: Colors.white70),
+                  ),
                 ],
               ),
             ),
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(0)),
-              child: Image.asset(widget.image, fit: BoxFit.cover, width: double.infinity, height: 220),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(0),
+              ),
+              child: Image.asset(
+                widget.image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: 220,
+              ),
             ),
             Expanded(
               child: Padding(
@@ -169,41 +186,66 @@ class _ProjectDetailWindowState extends State<ProjectDetailWindow> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold)),
+                        Text(
+                          widget.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 6),
-                        Text(widget.category, style: const TextStyle(color: Colors.white60)),
+                        Text(
+                          widget.category,
+                          style: const TextStyle(color: Colors.white60),
+                        ),
                         const SizedBox(height: 14),
                         Text(
                           widget.fullDescription,
-                          style: const TextStyle(color: Colors.white70, height: 1.5),
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            height: 1.5,
+                          ),
                         ),
                         if (widget.githubUrl != null) ...[
                           const SizedBox(height: 20),
                           TextButton.icon(
                             onPressed: () => _launchURL(widget.githubUrl!),
                             icon: const Icon(Icons.link, color: Colors.blue),
-                            label: const Text("Voir le projet sur GitHub", style: TextStyle(color: Colors.blue)),
+                            label: const Text(
+                              "Voir le projet",
+                              style: TextStyle(color: Colors.blue),
+                            ),
                           ),
                         ],
                         if (widget.competencies.isNotEmpty) ...[
                           const SizedBox(height: 24),
-                          const Text("Compétences acquises:",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          const Text(
+                            "Compétences acquises:",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           for (final skill in widget.competencies)
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 2),
                               child: Row(
                                 children: [
-                                  const Icon(Icons.check_circle, size: 16, color: Colors.greenAccent),
+                                  const Icon(
+                                    Icons.check_circle,
+                                    size: 16,
+                                    color: Colors.greenAccent,
+                                  ),
                                   const SizedBox(width: 8),
                                   Expanded(
-                                    child: Text(skill,
-                                        style: const TextStyle(color: Colors.white70)),
+                                    child: Text(
+                                      skill,
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -211,22 +253,32 @@ class _ProjectDetailWindowState extends State<ProjectDetailWindow> {
                         ],
                         if (widget.gallery.isNotEmpty) ...[
                           const SizedBox(height: 24),
-                          const Text("Galerie:",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          const Text(
+                            "Galerie:",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           SizedBox(
                             height: 120,
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemCount: widget.gallery.length,
-                              separatorBuilder: (_, __) => const SizedBox(width: 12),
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(width: 12),
                               itemBuilder: (_, i) => MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
                                   onTap: () => showImageViewer(i),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(widget.gallery[i], fit: BoxFit.cover, width: 200),
+                                    child: Image.asset(
+                                      widget.gallery[i],
+                                      fit: BoxFit.cover,
+                                      width: 200,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -238,7 +290,7 @@ class _ProjectDetailWindowState extends State<ProjectDetailWindow> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

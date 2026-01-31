@@ -1,6 +1,7 @@
 // [file name]: main.dart
 // [file content begin]
 
+import 'package:universal_html/html.dart' as html; // Le remplaçant sécurisé de dart:html
 import 'package:flutter/foundation.dart'; // Pour kIsWeb
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -223,7 +224,8 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                             _macMenuItem(context, _menuLabels[_lang]!['about']!, () {
                               showDialog(
                                 context: context,
-                                builder: (_) => const AboutMeWindow(),
+                                // AJOUT DE "lang: _lang" ICI :
+                                builder: (_) => AboutMeWindow(lang: _lang),
                               );
                             }),
                             _macMenuItem(context, _menuLabels[_lang]!['contact']!, () {
@@ -947,23 +949,31 @@ class CustomDesktopIcon extends StatelessWidget {
         await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       }
     } else if (label == 'Plein écran' || label == 'Fullscreen') {
-      // Version compatible mobile sans dart:html
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(label == 'Plein écran'
-              ? 'Le plein écran est géré automatiquement sur mobile'
-              : 'Fullscreen is handled automatically on mobile'),
-          duration: const Duration(seconds: 2),
-        ),
-      );
+      // === MODIFICATION ICI ===
+      if (kIsWeb) {
+        // Sur le Web (PC), on force le plein écran
+        html.document.documentElement?.requestFullscreen();
+      } else {
+        // Sur Mobile, on informe juste l'utilisateur
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(label == 'Plein écran'
+                ? 'Mode plein écran automatique sur mobile'
+                : 'Fullscreen is automatic on mobile'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      // =========================
     } else if (label == 'CV' || label == 'Resume') {
       const url =
-          'https://Jerem-ctrl.github.io/web/documents/cv_jeremy.pdf';
+          'https://jerem-ctrl.github.io/portfolio/documents/cv_jeremy.pdf';
       if (await canLaunchUrl(Uri.parse(url))) {
         await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Impossible d\'ouvrir le CV / Cannot open Resume')),
+          const SnackBar(
+              content: Text('Impossible d\'ouvrir le CV / Cannot open Resume')),
         );
       }
     } else if (label == 'GitHub') {
