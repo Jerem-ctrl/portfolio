@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Network Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section class="hero-section">
+        <div class="video-container">
+            <video autoplay muted loop playsinline id="heroVideo">
+                <source src="./assets/demo.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo.
+            </video>
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h1 class="animate-text">Network Monitor</h1>
+                <p class="animate-text">L'audit de sécurité. Dans votre poche.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Surveillance <span class="highlight">Temps Réel</span></h2>
+            
+            <div class="bento-grid">
+                <div class="bento-card large">
+                    <div class="card-text">
+                        <h3>Scan Automatisé</h3>
+                        <p>Détection des hôtes et des vulnérabilités (CVE) via Nmap.</p>
+                    </div>
+                    <div class="card-visual tech-bg">
+                        <div class="code-snippet">nmap -sV -T4 192.168.1.0/24</div>
+                    </div>
+                </div>
+
+                <div class="bento-card medium">
+                    <div class="card-text">
+                        <h3>Architecture 3-Tiers</h3>
+                        <p>App Android • API PHP • Serveur Java</p>
+                    </div>
+                    <img src="./assets/sae302_arch.png" alt="Architecture" class="card-img-fit">
+                </div>
+
+                <div class="bento-card medium">
+                    <div class="card-text">
+                        <h3>Sécurité</h3>
+                        <p>Authentification chiffrée & API sécurisée.</p>
+                    </div>
+                    <div class="lock-icon">🔒</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="downloads-section">
+        <div class="container">
+            <h2 class="section-title">Ressources du Projet</h2>
+            <div class="downloads-list">
+                
+                <a href="./files/presentation.pdf" target="_blank" class="dl-item">
+                    <div class="icon">📄</div>
+                    <div class="info">
+                        <span class="name">Présentation Officielle</span>
+                        <span class="meta">PDF • Synthèse du projet</span>
+                    </div>
+                    <div class="action">Voir</div>
+                </a>
+
+                <a href="./files/documentation.zip" class="dl-item">
+                    <div class="icon">📘</div>
+                    <div class="info">
+                        <span class="name">Documentation Technique</span>
+                        <span class="meta">ZIP • Manuel Install & RACI</span>
+                    </div>
+                    <div class="action">↓</div>
+                </a>
+
+                <a href="./files/source_android.zip" class="dl-item">
+                    <div class="icon">📱</div>
+                    <div class="info">
+                        <span class="name">Code Source Android</span>
+                        <span class="meta">ZIP • Java / Android Studio</span>
+                    </div>
+                    <div class="action">↓</div>
+                </a>
+
+                <a href="./files/backend_server.zip" class="dl-item">
+                    <div class="icon">⚙️</div>
+                    <div class="info">
+                        <span class="name">Backend Server</span>
+                        <span class="meta">ZIP • Java, PHP, SQL</span>
+                    </div>
+                    <div class="action">↓</div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

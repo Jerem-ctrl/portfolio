@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmission Systems // Audio-Reactive ASCII</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-content">
+            <h1>SYSTÈME DE TRANSMISSION & TRAITEMENT MULTIMÉDIA</h1>
+            <p class="subtitle">// EXPÉRIENCE AUDIO-RÉACTIVE // INITIALISATION REQUISE</p>
+            <p class="instruction">L'accès à la caméra et au microphone est nécessaire pour générer le flux de données en temps réel.</p>
+            <button id="init-btn">INITIALISER LE SYSTÈME ></button>
+        </div>
+    </div>
+
+    <canvas id="main-canvas"></canvas>
+    <video id="source-video" autoplay playsinline muted style="display:none"></video>
+
+    <div id="ui-overlay">
+        <header class="top-bar">
+            <div class="project-id">PROJET: TRANSMISSION_SIGNAL // SAE 3.01</div>
+            
+            <div class="status-container">
+                <div class="audio-bar-visual">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <div class="status-indicator">STATUS: <span id="status-text">FLUX ACTIF</span></div>
+            </div>
+        </header>
+        
+        <div class="spacer-flex"></div>
+        <main class="content-panel">
+            <h2><span class="highlight">///</span> PRÉSENTATION DU CONCEPT</h2>
+            <p class="lead">Exploration de la chaîne de transmission numérique et du traitement du signal.</p>
+            <p>Ce projet analyse les infrastructures physiques (DVB-T, Satellite) et propose une implémentation logicielle (Python) pour manipuler les flux multimédias. L'arrière-plan est une visualisation brute de votre signal vidéo, interprété en ASCII et modulé en temps réel par l'analyse spectrale (FFT) de votre environnement sonore.</p>
+        </main>
+
+        <footer class="bottom-panel">
+            <h3>DONNÉES DU PROJET // TÉLÉCHARGEMENTS</h3>
+            <div class="downloads-grid">
+                <a href="./files/rapport_transmission.pdf" target="_blank" class="dl-card">
+                    <span class="icon">📄</span>
+                    <div class="meta">
+                        <span class="title">RAPPORT TECHNIQUE</span>
+                        <span class="desc">PDF // Analyse & Compte-rendu</span>
+                    </div>
+                </a>
+                <a href="./files/notebook_codecplayer.ipynb" download class="dl-card">
+                    <span class="icon">📓</span>
+                    <div class="meta">
+                        <span class="title">NOTEBOOK PYTHON</span>
+                        <span class="desc">IPYNB // Outil "Codec Player"</span>
+                    </div>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

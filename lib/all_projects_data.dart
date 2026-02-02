@@ -72,6 +72,131 @@ List<Widget> getAllProjects(Lang lang) {
     const SizedBox(height: 24),
 
     StandardProjectCard(
+      title: tr("Systèmes de Transmission & Traitement Multimédia",
+                "Transmission Systems & Multimedia Processing"),
+      category: tr("Télécommunications & Dev Python",
+                   "Telecommunications & Python Dev"),
+      shortDescription: tr(
+        "Analyse des normes de diffusion TV (DVB-T/Satellite) et développement d'un studio logiciel de traitement de signal.",
+        "Analysis of TV broadcasting standards (DVB-T/Satellite) and development of a signal processing software studio.",
+      ),
+      fullDescription: tr(
+        "Ce projet double volet explore la chaîne complète de transmission de l'information.\n\n"
+        "1. Ingénierie des Transmissions : Étude approfondie des infrastructures de diffusion numérique (DVB-T, Satellite), incluant le codage de canal, la modulation (QAM, QPSK) et le multiplexage OFDM pour assurer l'intégrité du signal.\n"
+        "2. Développement Outil 'CodecPlayer' : Conception d'une application Python interactive (basée sur GStreamer et IPyWidgets) permettant de manipuler des flux audio/vidéo, de visualiser leur spectre fréquentiel et de comparer l'impact de la quantification et des codecs en temps réel.",
+        
+        "This dual-faceted project explores the complete information transmission chain.\n\n"
+        "1. Transmission Engineering: In-depth study of digital broadcasting infrastructures (DVB-T, Satellite), including channel coding, modulation (QAM, QPSK), and OFDM multiplexing to ensure signal integrity.\n"
+        "2. 'CodecPlayer' Tool Development: Design of an interactive Python application (based on GStreamer and IPyWidgets) to manipulate audio/video streams, visualize their frequency spectrum, and compare the impact of quantization and codecs in real-time.",
+      ),
+      image: "assets/images/transmission_studio_main.gif",
+      gallery: [
+        "assets/images/Sae31Interface.png",
+        "assets/images/Sae31Stereo.png",
+        "assets/images/Sae31Spectre.png",
+        "assets/images/Sae31Analyse.png",
+        "assets/images/Sae31Quantification2bits.png",
+        "assets/images/Sae31Quantification4bits.png",
+        "assets/images/Sae31Quantification8bits.png",
+        "assets/images/Sae31Quantification12bits.png",
+        "assets/images/Sae31Gstreamer.jpeg",
+        "assets/images/Sae31Jupyter.png",
+        "assets/images/Sae31Cr (1).jpg",
+        "assets/images/Sae31Cr (2).jpg",
+        "assets/images/Sae31Cr (3).jpg",
+        "assets/images/Sae31Cr (4).jpg",
+        "assets/images/Sae31Cr (5).jpg",
+        "assets/images/Sae31Cr (6).jpg",
+        "assets/images/Sae31Cr (7).jpg",
+        "assets/images/Sae31Cr (8).jpg",
+        "assets/images/Sae31Cr (9).jpg",
+        "assets/images/Sae31Cr (10).jpg",
+        "assets/images/Sae31Cr (11).jpg",
+        "assets/images/Sae31Cr (12).jpg",
+        "assets/images/Sae31Cr (13).jpg",
+        "assets/images/Sae31Cr (14).jpg",
+        "assets/images/Sae31Cr (15).jpg",
+        "assets/images/Sae31Cr (16).jpg",
+        "assets/images/Sae31Cr (17).jpg",
+        "assets/images/Sae31Cr (18).jpg",
+        "assets/images/Sae31Cr (19).jpg",
+        "assets/images/Sae31Cr (20).jpg",
+        "assets/images/Sae31Cr (21).jpg",
+        "assets/images/Sae31Cr (22).jpg",
+        "assets/images/Sae31Cr (23).jpg",
+        "assets/images/Sae31Cr (24).jpg",
+        "assets/images/Sae31Cr (25).jpg",
+        "assets/images/Sae31Cr (26).jpg",
+        "assets/images/Sae31Cr (27).jpg",
+        "assets/images/Sae31Cr (28).jpg",
+        "assets/images/Sae31Cr (29).jpg",
+        "assets/images/Sae31Cr (30).jpg",
+        "assets/images/Sae31Cr (31).jpg",
+        "assets/images/Sae31Cr (32).jpg",
+        "assets/images/Sae31Cr (33).jpg",
+        "assets/images/Sae31Cr (34).jpg",
+        "assets/images/Sae31Cr (35).jpg",
+        "assets/images/Sae31Cr (36).jpg",
+        "assets/images/Sae31Cr (37).jpg",
+      ],
+      competencies: [
+        tr("Traitement du signal : Modulation, Multiplexage (OFDM), Correction d'erreurs",
+           "Signal Processing: Modulation, Multiplexing (OFDM), Error Correction"),
+        tr("Développement Python avancé (GStreamer, Matplotlib, IPyWidgets)",
+           "Advanced Python Development (GStreamer, Matplotlib, IPyWidgets)"),
+        tr("Analyse spectrale et temporelle de signaux multimédias",
+           "Spectral and temporal analysis of multimedia signals"),
+        tr("Compréhension des infrastructures de télécommunication (DVB-T)",
+           "Understanding of telecommunication infrastructures (DVB-T)"),
+      ],
+
+      githubUrl: "https://jerem-ctrl.github.io/portfolio/transmission_ascii/index.html", 
+    ),
+
+    StandardProjectCard(
+      title: tr("Application Android de Surveillance Réseau",
+                "Android Network Monitoring App"),
+      category: tr("Développement Mobile & Cybersécurité",
+                   "Mobile Development & Cybersecurity"),
+      shortDescription: tr(
+        "Application mobile connectée pour l'audit de sécurité réseau et la visualisation de vulnérabilités en temps réel.",
+        "Connected mobile app for network security auditing and real-time vulnerability visualization.",
+      ),
+      fullDescription: tr(
+        "Ce projet vise à simplifier l'audit de sécurité via une application Android communicante. L'architecture repose sur trois piliers : un serveur Java effectuant des scans réseaux (Nmap) et détectant les vulnérabilités (CVE), une API Web (PHP) faisant l'interface, et l'application mobile affichant les résultats. L'utilisateur peut ainsi surveiller les équipements connectés, voir les ports ouverts et recevoir des alertes de sécurité directement sur son smartphone.",
+        "This project aims to simplify security auditing via a communicating Android app. The architecture rests on three pillars: a Java server performing network scans (Nmap) and detecting vulnerabilities (CVE), a Web API (PHP) acting as an interface, and the mobile app displaying results. Users can monitor connected devices, view open ports, and receive security alerts directly on their smartphone.",
+      ),
+      image: "assets/images/sae302_dashboard.gif",
+      gallery: [
+        "assets/images/Sae32Presentation.png",
+        "assets/images/Sae32Sommaire.png",
+        "assets/images/Sae32Introduction.png",
+        "assets/images/Sae32Gestion.png",
+        "assets/images/Sae32Raci.png",
+        "assets/images/Sae32Architecture.png",
+        "assets/images/Sae32Schema.png",
+        "assets/images/Sae32BaseDeDonnees.png",
+        "assets/images/Sae32Dashboard.png",
+        "assets/images/Sae32Developpement.png",
+        "assets/images/Sae32Liaison.png",
+        "assets/images/Sae32DeveloppementApplication.png",
+        "assets/images/Sae32Problemes.png",
+        "assets/images/Sae32Conclusion.png",
+      ],
+      competencies: [
+        tr("Développement Mobile Android (Java/Android Studio)",
+           "Android Mobile Development (Java/Android Studio)"),
+        tr("Conception et consommation d'API REST (PHP/JSON)",
+           "REST API Design & Consumption (PHP/JSON)"),
+        tr("Automatisation de scans réseaux (Nmap, Serveur Java)",
+           "Network Scan Automation (Nmap, Java Server)"),
+        tr("Gestion de base de données et authentification sécurisée",
+           "Database Management & Secure Authentication"),
+      ],
+      githubUrl: "https://jerem-ctrl.github.io/portfolio/android_app/index.html",
+    ),
+
+    StandardProjectCard(
       title: "HighDef",
       category: tr("Traitement du signal", "Signal processing"),
       shortDescription: tr("Mesure rapide d’un signal audio.",
@@ -101,7 +226,6 @@ List<Widget> getAllProjects(Lang lang) {
       ],
       githubUrl: "https://github.com/Jerem-ctrl/HighDef",
     ),
-    const SizedBox(height: 24),
 
     StandardProjectCard(
       title: tr('Interface Web embarquée pour Thales',
@@ -177,10 +301,141 @@ List<Widget> getAllProjects(Lang lang) {
     ),
 
     // === INITIATIVE RÉSEAUX ===
+
     FeaturedProjectCard(
+      title: tr("🌐 Architecture Réseau Multi-Site : VPN & Haute Disponibilité",
+                "🌐 Secure Multi-Site Architecture: VPN & High Availability"),
+      category: tr("Ingénierie Réseau & Infrastructure",
+                   "Network Engineering & Infrastructure"),
+      shortDescription: tr(
+        "Infrastructure multi-sites : VPN (IPSec/SSL), Haute Disponibilité (HSRP) et Sécurité.",
+        "Design of a corporate infrastructure connecting three critical sites: VPN Tunnels (IPSec/SSL), High Availability (HSRP), and Advanced Security.",
+      ),
+      fullDescription: tr(
+        "Ce projet d'ingénierie simule la refonte complète d'une infrastructure réseau répartie sur trois sites géographiques. L'enjeu majeur était de garantir une continuité de service totale et une confidentialité des échanges inter-sites.\n\n"
+        "J'ai déployé une architecture hiérarchique Cisco intégrant :\n"
+        "• Interconnexion Cryptée : Mise en place de tunnels VPN IPSec (Site-à-Site) pour relier les agences et de VPN SSL pour les accès distants sécurisés.\n"
+        "• Haute Disponibilité : Implémentation du protocole HSRP pour la redondance des passerelles et RSTP pour la résilience de niveau 2.\n"
+        "• Routage & Sécurité Renforcée : Configuration d'OSPF multi-aires, filtrage périmétrique via pare-feu ASA et verrouillage des accès locaux (DHCP Snooping, DAI, Port-Security).",
+        
+        "This engineering project simulates the complete overhaul of a network infrastructure distributed across three geographic sites. The main goal was to ensure total service continuity and confidentiality of inter-site exchanges.\n\n"
+        "I deployed a hierarchical Cisco architecture integrating:\n"
+        "• Encrypted Interconnection: Implementation of IPSec VPN tunnels (Site-to-Site) to connect branches and SSL VPN for secure remote access.\n"
+        "• High Availability: Implementation of HSRP protocol for gateway redundancy and RSTP for Layer 2 resilience.\n"
+        "• Routing & Hardened Security: Multi-area OSPF configuration, perimeter filtering via ASA firewalls, and local access locking (DHCP Snooping, DAI, Port-Security).",
+      ),
+      image: "assets/images/Sae33.webp",
+      gallery: [
+        "assets/images/Sae33Padedegarde.png",
+        "assets/images/Sae33Sommaire.png",
+        "assets/images/Sae33VisionStratégique.png",
+        "assets/images/Sae33Contexte.png",
+        "assets/images/Sae33Perimetre.png",
+        "assets/images/Sae33Architecture.png",
+        "assets/images/Sae33Conception01.png",
+        "assets/images/Sae33Conception02.png",
+        "assets/images/Sae33Peripherie.png",
+        "assets/images/Sae33Strategie.png",
+        "assets/images/Sae33Decoupage.png",
+        "assets/images/Sae33Gestion.png",
+        "assets/images/Sae33Haute.png",
+        "assets/images/Sae33Redondance.png",
+        "assets/images/Sae33RedondanceDeNiveau2.png",
+        "assets/images/Sae33ProtocoleDeRoutage.png",
+        "assets/images/Sae33Routage.png",
+        "assets/images/Sae33RoutageStatique.png",
+        "assets/images/Sae33ArchitectureDeSecurite.png",
+        "assets/images/Sae33Securite.png",
+        "assets/images/Sae33Reseaux.png",
+        "assets/images/Sae33SecuriteDeLaCouche.png",
+        "assets/images/Sae33Infrastructure.png",
+        "assets/images/Sae33GestionDeProjet.png",
+        "assets/images/Sae33Diffusion.png",
+        "assets/images/Sae33Test.png",
+        "assets/images/Sae33Conclusion.png",
+      ],
+      competencies: [
+        tr("Déploiement de tunnels VPN IPSec et SSL (Site-to-Site / Remote Access)",
+           "Deployment of IPSec & SSL VPN tunnels (Site-to-Site / Remote Access)"),
+        tr("Conception d'architecture Haute Disponibilité (HSRP, RSTP)",
+           "High Availability Architecture Design (HSRP, RSTP)"),
+        tr("Routage dynamique avancé (OSPF Multi-Area)",
+           "Advanced Dynamic Routing (OSPF Multi-Area)"),
+        tr("Sécurisation des couches accès et distribution (ACL, DAI, Port-Sec)",
+           "Access & Distribution Layer Security (ACL, DAI, Port-Sec)"),
+      ],
+      githubUrl: 'https://jerem-ctrl.github.io/portfolio/network_infra/index.html',
+    ),
+    const SizedBox(height: 24),
+
+    StandardProjectCard(
+      title: tr("Pentesting Avancé & Analyse Malware",
+                "Advanced Pentesting & Malware Analysis"),
+      category: tr("Cybersécurité Offensive (Red Team) & Blue Team",
+                   "Offensive Cybersecurity (Red Team) & Blue Team"),
+      shortDescription: tr(
+        "Série d'audits de sécurité complets (Web, Linux, Windows) et analyse forensique de malwares (Crypto-miner).",
+        "Series of comprehensive security audits (Web, Linux, Windows) and forensic malware analysis (Crypto-miner).",
+      ),
+      fullDescription: tr(
+        "Ce projet regroupe plusieurs missions d'intrusion éthique et d'analyse de menaces :\n\n"
+        "1. Pentest Web & Linux : Exploitation de vulnérabilités critiques (ProFTPD CVE-2015-3306, Injection SQL), élévation de privilèges (SUID, Path Hijacking) et exfiltration de données sur environnements Debian.\n"
+        "2. Pentest Windows & AD : Compromission d'un serveur Windows via l'exploit SMB 'EternalBlue' (MS17-010), post-exploitation avec Meterpreter et récupération de flags Administrateur.\n"
+        "3. Analyse Malware (Blue Team) : Dissection comportementale d'un binaire malveillant (Crypto-mineur) sur Ubuntu via Sandbox (Any.Run). Identification des IOCs (Indicateurs de Compromission), analyse des connexions C2 et recommandations de remédiation.",
+        
+        "This project aggregates several ethical hacking and threat analysis missions:\n\n"
+        "1. Web & Linux Pentest: Exploitation of critical vulnerabilities (ProFTPD CVE-2015-3306, SQL Injection), privilege escalation (SUID, Path Hijacking), and data exfiltration on Debian environments.\n"
+        "2. Windows & AD Pentest: Compromise of a Windows Server via the SMB 'EternalBlue' exploit (MS17-010), post-exploitation using Meterpreter, and retrieval of Administrator flags.\n"
+        "3. Malware Analysis (Blue Team): Behavioral dissection of a malicious binary (Crypto-miner) on Ubuntu via Sandbox (Any.Run). Identification of IOCs (Indicators of Compromise), C2 connection analysis, and remediation recommendations.",
+      ),
+      image: "assets/images/pentest_cover.gif",
+      gallery: [
+        "assets/images/PentestR (1).jpg",
+        "assets/images/PentestR (2).jpg",
+        "assets/images/PentestR (3).jpg",
+        "assets/images/PentestR (4).jpg",
+        "assets/images/PentestR (5).jpg",
+        "assets/images/PentestR (6).jpg",
+        "assets/images/PentestR (7).jpg",
+        "assets/images/PentestR (8).jpg",
+        "assets/images/PentestR (9).jpg",
+        "assets/images/PentestR (10).jpg",
+        "assets/images/PentestR (11).jpg",
+        "assets/images/PentestR (12).jpg",
+        "assets/images/PentestR (13).jpg",
+        "assets/images/PentestR (14).jpg",
+        "assets/images/PentestR (15).jpg",
+        "assets/images/PentestR (16).jpg",
+        "assets/images/PentestR (17).jpg",
+        "assets/images/PentestR (18).jpg",
+        "assets/images/PentestR (19).jpg",
+        "assets/images/PentestR (20).jpg",
+        "assets/images/PentestR (21).jpg",
+        "assets/images/PentestR (22).jpg",
+        "assets/images/PentestR (23).jpg",
+        "assets/images/PentestR (24).jpg",
+        "assets/images/PentestR (25).jpg",
+        "assets/images/PentestR (26).jpg",
+        "assets/images/PentestR (27).jpg",
+        "assets/images/PentestR (28).jpg",
+      ],
+      competencies: [
+        tr("Tests d'intrusion (Pentesting) : Méthodologie OWASP, Nmap, Burp Suite, Sqlmap",
+           "Penetration Testing: OWASP Methodology, Nmap, Burp Suite, Sqlmap"),
+        tr("Exploitation de vulnérabilités : CVE-2015-3306, MS17-010 (EternalBlue), SUID",
+           "Vulnerability Exploitation: CVE-2015-3306, MS17-010 (EternalBlue), SUID"),
+        tr("Post-Exploitation & Escalade de privilèges (Linux/Windows)",
+           "Post-Exploitation & Privilege Escalation (Linux/Windows)"),
+        tr("Analyse Forensique & Malware : Sandbox Any.Run, Détection d'IOCs",
+           "Forensics & Malware Analysis: Any.Run Sandbox, IOC Detection"),
+      ],
+      githubUrl: "https://jerem-ctrl.github.io/portfolio/pentest/index.html", 
+    ),
+
+    StandardProjectCard(
       title: tr("Infrastructure réseau sécurisée pour PME",
                 "Secure Network Infrastructure for SMB"),
-      category: tr("Réseaux & Sécurité","Networking & Security"),
+      category: tr("Réseaux & Sécurité", "Networking & Security"),
       shortDescription: tr(
         "Ce projet simule une architecture réseau complète pour PME avec VLANs, DNS/DHCP, DMZ, pare-feu ASA, routage et sécurité.",
         "Simulates a full SMB network architecture: VLANs, DNS/DHCP, DMZ, ASA firewall, routing, and security.",
