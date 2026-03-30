@@ -2,15 +2,15 @@
   "version": 3,
   "pages404": true,
   "caseSensitive": false,
-  "basePath": "/canada_vlog/mohitvirli.github.io-master/out",
+  "basePath": "/portfolio/canada_vlog/mohitvirli.github.io-master/out",
   "redirects": [
     {
-      "source": "/canada_vlog/mohitvirli.github.io-master/out/",
-      "destination": "/canada_vlog/mohitvirli.github.io-master/out",
+      "source": "/portfolio/canada_vlog/mohitvirli.github.io-master/out/",
+      "destination": "/portfolio/canada_vlog/mohitvirli.github.io-master/out",
       "basePath": false,
       "internal": true,
       "statusCode": 308,
-      "regex": "^/canada_vlog/mohitvirli\\.github\\.io-master/out/$"
+      "regex": "^/portfolio/canada_vlog/mohitvirli\\.github\\.io-master/out/$"
     },
     {
       "source": "/:path+/",

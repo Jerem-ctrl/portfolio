@@ -13,7 +13,7 @@
     "typedRoutes": false,
     "distDir": ".next",
     "cleanDistDir": true,
-    "assetPrefix": "/canada_vlog/mohitvirli.github.io-master/out",
+    "assetPrefix": "/portfolio/canada_vlog/mohitvirli.github.io-master/out",
     "cacheMaxMemorySize": 52428800,
     "configOrigin": "next.config.ts",
     "useFileSystemPublicRoutes": true,
@@ -47,7 +47,7 @@
         256,
         384
       ],
-      "path": "/canada_vlog/mohitvirli.github.io-master/out/_next/image",
+      "path": "/portfolio/canada_vlog/mohitvirli.github.io-master/out/_next/image",
       "loader": "default",
       "loaderFile": "",
       "domains": [],
@@ -70,9 +70,9 @@
       "pagesBufferLength": 5
     },
     "amp": {
-      "canonicalBase": "/canada_vlog/mohitvirli.github.io-master/out"
+      "canonicalBase": "/portfolio/canada_vlog/mohitvirli.github.io-master/out"
     },
-    "basePath": "/canada_vlog/mohitvirli.github.io-master/out",
+    "basePath": "/portfolio/canada_vlog/mohitvirli.github.io-master/out",
     "sassOptions": {},
     "trailingSlash": false,
     "i18n": null,

@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/canada_vlog/mohitvirli.github.io-master/out",
+  basePath: "/portfolio/canada_vlog/mohitvirli.github.io-master/out",
   images: { unoptimized: true },
   /* config options here */
   // skip strict mode
