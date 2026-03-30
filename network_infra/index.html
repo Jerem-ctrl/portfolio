@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure Réseau - Jérémy Girard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="intro-copy">
+            <p class="animate-text">Projet : Architecture Multi-Site</p>
+            <p class="animate-text">Focus : Haute Disponibilité (HSRP)</p>
+            <p class="animate-text">Sécurité : VPN & Pare-feu</p>
+            <p class="animate-text">Statut : Terminé</p>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll pour explorer</span>
+        </div>
+
+        <div class="headers">
+            <section id="section-1">
+                <h1>TOPOLOGIE</h1>
+                <div class="text-block">
+                    <p>Interconnexion de 3 sites (Nord, Sud, Est) via liaisons séries et Gigabit.</p>
+                    <p>Modèle hiérarchique Cisco 3 couches : Cœur, Distribution, Accès.</p>
+                </div>
+            </section>
+            
+            <section id="section-2">
+                <h1>VLANs & IP</h1>
+                <div class="text-block">
+                    <p>Segmentation logique stricte (VLANs Direction, RH, Wifi, Invité).</p>
+                    <p>Plan d'adressage VLSM optimisé pour réduire le gaspillage d'IP.</p>
+                </div>
+            </section>
+            
+            <section id="section-3">
+                <h1>RÉSILIENCE</h1>
+                <div class="text-block">
+                    <p>Redondance de passerelle par défaut via le protocole HSRP.</p>
+                    <p>Continuité de service assurée en cas de panne d'un routeur critique.</p>
+                </div>
+            </section>
+            
+            <section id="section-4">
+                <h1>SÉCURITÉ</h1>
+                <div class="text-block">
+                    <p>Tunnels VPN IPSec chiffrés pour sécuriser les flux inter-sites.</p>
+                    <p>Durcissement LAN : Port-Security, DAI et DHCP Snooping activés.</p>
+                </div>
+            </section>
+            
+            <section id="section-5">
+                <h1>LIVRABLES</h1>
+                <div class="text-block downloads-minimal">
+                    <a href="./files/rapport.pdf" target="_blank">RAPPORT.PDF</a>
+                    <a href="./files/presentation.pdf" target="_blank">PRÉSENTATION.PDF</a>
+                    <a href="./files/dossier_technique.xlsx" target="_blank">DOSSIER_TECH.XLSX</a>
+                    <a href="./files/script_toip.txt" target="_blank">SCRIPT_TOIP.TXT</a>
+                    <a href="./files/configurations_completes.zip" class="highlight">FULL_CONFIG.ZIP</a>
+                </div>
+            </section>
+            
+            <div class="spacer"></div>
+        </div>
+
+        <div class="section-previews">
+            <div class="img" id="preview-1">
+                <img src="./assets/img-1.png" alt="Architecture" />
+            </div>
+            <div class="img" id="preview-2">
+                <img src="./assets/img-2.png" alt="VLANs" />
+            </div>
+            <div class="img" id="preview-3">
+                <img src="./assets/img-3.png" alt="HSRP" />
+            </div>
+            <div class="img" id="preview-4">
+                <img src="./assets/img-4.png" alt="Sécurité" />
+            </div>
+            <div class="img" id="preview-5">
+                <img src="./assets/img-5.jpg" alt="Livrables" />
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="./script.js" defer></script>
+</body>
+</html>

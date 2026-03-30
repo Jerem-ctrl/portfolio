@@ -1,0 +1,7 @@
+{
+  "/favicon.ico/route": "/favicon.ico",
+  "/opengraph-image.png/route": "/opengraph-image.png",
+  "/_not-found/page": "/_not-found",
+  "/page": "/",
+  "/vlog/[id]/page": "/vlog/[id]"
+}
