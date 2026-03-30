@@ -197,7 +197,7 @@ List<Widget> getAllProjects(Lang lang) {
     ),
 
     StandardProjectCard(
-      title: "HighDef",
+      title: tr("HighDef — Analyse Audio Haute Définition", "HighDef — HD Audio Analysis"),
       category: tr("Traitement du signal", "Signal processing"),
       shortDescription: tr("Mesure rapide d’un signal audio.",
                           "Fast measurement of an audio signal."),
@@ -367,6 +367,45 @@ List<Widget> getAllProjects(Lang lang) {
       githubUrl: 'https://jerem-ctrl.github.io/portfolio/network_infra/index.html',
     ),
     const SizedBox(height: 24),
+
+    StandardProjectCard(
+      title: tr("Infrastructure Fibre Optique & Réflectométrie",
+                "Fiber Optic Infrastructure & Reflectometry"),
+      category: tr("Télécommunications & Infrastructure Réseau",
+                   "Telecommunications & Network Infrastructure"),
+      shortDescription: tr(
+        "Déploiement et certification de liaisons optiques : Soudure par fusion, Photométrie et Diagnostic OTDR.",
+        "Deployment and certification of optical links: Fusion splicing, Photometry, and OTDR diagnostics.",
+      ),
+      fullDescription: tr(
+        "Ce projet couvre l'intégralité du cycle de vie physique d'une liaison fibre optique, de l'installation à la maintenance experte.\n\n"
+        "1. Ingénierie de Déploiement : Préparation des câbles (dénudage, clivage de précision) et raccordement par soudure à l'arc (fusionneuse) avec protection thermorétractable (SMOUV).\n"
+        "2. Certification & Métrologie : Validation des pertes d'insertion par photométrie (Source Laser calibrée/Radiomètre) et qualification des connecteurs.\n"
+        "3. Diagnostic Avancé (OTDR) : Analyse par réflectométrie temporelle pour cartographier la liaison. Interprétation des courbes pour localiser précisément les défauts (épissures, contraintes, connecteurs), mesurer l'atténuation linéique (dB/km) et la réflectance.",
+        
+        "This project covers the entire physical lifecycle of a fiber optic link, from installation to expert maintenance.\n\n"
+        "1. Deployment Engineering: Cable preparation (stripping, precision cleaving) and connection via arc fusion splicing with heat-shrink protection.\n"
+        "2. Certification & Metrology: Validation of insertion losses via photometry (Calibrated Laser Source/Radiometer) and connector qualification.\n"
+        "3. Advanced Diagnostics (OTDR): Time-domain reflectometry analysis to map the link. Interpretation of traces to precisely locate faults (splices, stress, connectors), measure linear attenuation (dB/km), and reflectance.",
+      ),
+      image: "assets/images/fibre_otdr_trace.gif",
+      gallery: [
+        "assets/images/fibre_soudure.jpeg",
+        "assets/images/fibre_architecture.png",
+        "assets/images/fibre_photometrie.png",
+      ],
+      competencies: [
+        tr("Soudure optique par fusion (Arc Fusion Splicing)",
+           "Optical Fusion Splicing (Arc Fusion Splicing)"),
+        tr("Réflectométrie (OTDR) : Analyse de courbes et localisation de défauts",
+           "Reflectometry (OTDR): Trace analysis and fault localization"),
+        tr("Photométrie : Bilan de puissance et mesure d'atténuation (dB)",
+           "Photometry: Power budget and attenuation measurement (dB)"),
+        tr("Connaissance des composants passifs (Coupleurs, Connecteurs SC/APC)",
+           "Passive components knowledge (Splitters, SC/APC Connectors)"),
+      ],
+      githubUrl: "https://jerem-ctrl.github.io/portfolio/fiber_optics/index.html", 
+    ),
 
     StandardProjectCard(
       title: tr("Pentesting Avancé & Analyse Malware",

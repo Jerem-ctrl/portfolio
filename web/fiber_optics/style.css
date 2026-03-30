@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+
+:root {
+    --text-color: #ffffff;
+    --bg-color: #050505;
+    --card-bg: #0a0a0a;
+}
+
+html, body {
+    min-height: 100vh;
+    margin: 0; padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Geist", system-ui, sans-serif;
+    scroll-behavior: smooth;
+}
+
+* { box-sizing: border-box; }
+
+/* Fond pointillé */
+body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1;
+    --dot-color: rgba(255, 255, 255, 0.1); --spacing: 24px; --dot-size: 1.5px;
+    background-image: radial-gradient(var(--dot-color) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--spacing) var(--spacing);
+    mask-image: radial-gradient(circle at top left, black 0%, transparent 80%);
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+/* HERO */
+.hero {
+    min-height: 80vh; display: flex; align-items: center; justify-content: flex-start;
+    padding-top: 100px;
+}
+.hero-text {
+    font-size: clamp(3rem, 10vw, 8rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.04em; margin: 0;
+    background: linear-gradient(to right, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-description { font-size: 1.5rem; color: #888; margin-top: 2rem; max-width: 600px; font-weight: 300; }
+
+/* LISTE KINETIC */
+.list-container {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; padding: 10vh 0;
+}
+.list-text {
+    font-size: 1.5rem; color: #555; position: sticky; top: 50vh; height: fit-content;
+    text-transform: uppercase; letter-spacing: 0.1em;
+}
+.list { list-style: none; padding: 0; margin: 0; }
+.list li {
+    font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; line-height: 1.1; color: #222; transition: color 0.3s;
+}
+@supports (animation-timeline: scroll()) {
+    .list li {
+        animation: reveal linear both; animation-timeline: view(); animation-range: entry 50% cover 50%;
+    }
+}
+@keyframes reveal {
+    0% { color: #222; transform: translateX(-20px); }
+    50% { color: #fff; transform: translateX(0); }
+    100% { color: #222; transform: translateX(20px); }
+}
+
+/* GRILLE D'INFORMATION (Nouvelle section) */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 80px;
+}
+
+.info-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 4px; /* Coins carrés pour faire tech */
+    transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.card-number {
+    font-size: 3rem; font-weight: 800; color: #333; line-height: 1;
+}
+
+.info-card h3 {
+    font-size: 1.5rem; font-weight: 600; margin: 0; text-align: right;
+    background: linear-gradient(to bottom, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background-color: #111;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    filter: grayscale(100%); /* Image en noir et blanc pour le style */
+    transition: filter 0.3s;
+}
+
+.info-card:hover .card-image {
+    filter: grayscale(0%); /* L'image reprend ses couleurs au survol */
+}
+
+.card-desc {
+    font-size: 1rem; color: #888; line-height: 1.6; margin: 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .list-container { grid-template-columns: 1fr; }
+    .list-text { display: none; }
+    .hero-text { font-size: 15vw; }
+}

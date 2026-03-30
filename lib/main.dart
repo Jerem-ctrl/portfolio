@@ -1,8 +1,8 @@
 // [file name]: main.dart
 // [file content begin]
 
-import 'package:universal_html/html.dart' as html; // Le remplaçant sécurisé de dart:html
-import 'package:flutter/foundation.dart'; // Pour kIsWeb
+import 'package:universal_html/html.dart' as html;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -18,9 +18,35 @@ import 'package:portofolio/competence_window.dart';
 import 'package:portofolio/project_windows.dart' show MacOSProjectWindow;
 import 'package:portofolio/project_windows.dart' show FeaturedProjectCard;
 import 'package:portofolio/all_projects_data.dart';
+import 'package:portofolio/certification_window.dart';
+import 'dart:ui_web' as ui_web;
+import 'dart:js_util' as js_util;
+
+bool _hasFastConnection() {
+  // On force à "true" pour s'assurer que le fond en direct (ISS) s'affiche toujours,
+  // car l'API navigator.connection.downlink peut renvoyer des fausses valeurs.
+  return true;
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    ui_web.platformViewRegistry.registerViewFactory(
+      'youtube-live-iss',
+      (int viewId) {
+        final iframe = html.IFrameElement()
+          ..width = '100%'
+          ..height = '100%'
+          ..src = 'https://www.youtube.com/embed/fO9e9jnhYK8?autoplay=1&mute=1&controls=0&showinfo=0&loop=1&playlist=fO9e9jnhYK8&playsinline=1&modestbranding=1'
+          ..style.border = 'none'
+          ..style.pointerEvents = 'none' // Empêche l'iframe d'intercepter les clics
+          ..allow = 'autoplay; fullscreen';
+        return iframe;
+      },
+    );
+  }
+
   await initializeDateFormatting('fr_FR', null);
   await initializeDateFormatting('en_US', null);
   runApp(const MonPortfolio());
@@ -90,7 +116,14 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
-    Future.delayed(const Duration(seconds: 5), () {
+    // PRE-CACHING ACTIF DES GROS ASSETS
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      precacheImage(const AssetImage('assets/images/mont_fuji.jpg'), context);
+      precacheImage(const AssetImage('assets/images/th.jpg'), context);
+    });
+
+    // DELAI ULTRA-OPTIMISÉ (1.5s vs 5s)
+    Future.delayed(const Duration(milliseconds: 1500), () {
       _controller.forward().then((_) {
         setState(() {
           _isLoading = false;
@@ -132,13 +165,14 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
   PageRouteBuilder _buildProjectWindow(
     BuildContext context,
     String title,
-    List<Widget> content,
-  ) {
+    List<Widget> content, {
+    String? description,
+  }) {
     return PageRouteBuilder(
       opaque: false,
       transitionDuration: const Duration(milliseconds: 400),
       pageBuilder: (_, __, ___) =>
-          MacOSProjectWindow(title: title, content: content),
+          MacOSProjectWindow(title: title, content: content, description: description),
       transitionsBuilder: (_, animation, __, child) {
         return ScaleTransition(
           scale: Tween<double>(
@@ -160,9 +194,9 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
           child: FadeTransition(
             opacity: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
             child: Image.asset(
-              'assets/images/apple_splash.png',
-              width: 75,
-              height: 75,
+              'assets/images/apple_splash1.png',
+              width: 125,
+              height: 125,
             ),
           ),
         ),
@@ -175,17 +209,35 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
     final dateFormatter = DateFormat(pattern, locale);
     final formattedDate = dateFormatter.format(_currentTime);
     
+    final bool hasFastConn = _hasFastConnection();
+
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-            image: AssetImage('assets/images/background.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          children: [
-            // BARRE DE MENU macOS - UN SEUL POSITIONED !
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          // 0. FOND D'ECRAN
+          if (kIsWeb && hasFastConn)
+            Positioned.fill(
+              child: Transform.scale(
+                scale: 1.35, // Effet "Cover" géant pour cacher le bandeau du bas et les logos sur les bords
+                child: const HtmlElementView(viewType: 'youtube-live-iss'),
+              ),
+            )
+          else
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/background.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          
+          // Léger filtre noir sur la vidéo pour lisibilité du texte
+          if (kIsWeb && hasFastConn)
+             Positioned.fill(
+               child: Container(color: Colors.black.withOpacity(0.15)),
+             ),
+
+          // 1. BARRE DE MENU macOS - UN SEUL POSITIONED !
             Positioned(
               top: 0,
               left: 0,
@@ -208,9 +260,9 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                           children: [
                             const SizedBox(width: 10),
                             const Image(
-                              image: AssetImage('assets/images/apple_logo.png'),
-                              height: 25,
-                              width: 25,
+                              image: AssetImage('assets/images/apple_logo1.png'),
+                              height: 50,
+                              width: 50,
                             ),
                             const Text(
                               '  Finder',
@@ -249,6 +301,9 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                                   context,
                                   _lang == Lang.fr ? 'Tous les projets' : 'All Projects',
                                   getAllProjects(_lang),
+                                  description: _lang == Lang.fr
+                                      ? 'Explorez l\'ensemble de mes réalisations : développement, réseaux et cybersécurité.'
+                                      : 'Explore all my work: development, networking, and cybersecurity.',
                                 ),
                               );
                             }),
@@ -305,13 +360,20 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
               ),
             ),
             
-            // ICÔNES DU BUREAU
+            // ICÔNES DU BUREAU (RESPONSIVE — Colonne de paires style macOS)
             Positioned(
               top: 60,
-              left: 30,
-              child: Column(
-                children: [
-                  Row(
+              left: 20,
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width < 500
+                        ? MediaQuery.of(context).size.width - 40
+                        : 200, // 2 icônes (55+55) + spacing (40) + marge
+                  ),
+                  child: Wrap(
+                    spacing: 40,
+                    runSpacing: 20,
                     children: [
                       CustomDesktopIcon(
                         label: _lang == Lang.fr ? 'Projets' : 'Projects',
@@ -319,50 +381,52 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                         badgeText: '8+',
                         lang: _lang,
                       ),
-                      const SizedBox(width: 40),
                       CustomDesktopIcon(
                         label: 'LinkedIn',
                         imagePath: 'assets/images/linkedin_icon.png',
                         badgeText: '4K+',
                         lang: _lang,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
                       CustomDesktopIcon(
                         label: 'Replit', 
                         imagePath: 'assets/images/replit.png',
                         badgeText: '3',
                         lang: _lang,
                       ),
-                      const SizedBox(width: 40),
                       CustomDesktopIcon(
                         label: _lang == Lang.fr ? 'Plein écran' : 'Fullscreen',
                         imagePath: 'assets/images/full_screen.png',
                         lang: _lang,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
                       CustomDesktopIcon(
                         label: _lang == Lang.fr ? 'CV' : 'Resume',
                         imagePath: 'assets/images/pdf.png',
                         lang: _lang,
                       ),
-                      const SizedBox(width: 40),
+                      CustomDesktopIcon(
+                        label: 'Vlog UQAC',
+                        emoji: '🇨🇦',
+                        lang: _lang,
+                        onTapOverride: () {
+                          if (kIsWeb) {
+                            html.window.open('canada_vlog/mohitvirli.github.io-master/out/index.html', '_blank');
+                          }
+                        },
+                      ),
                       CustomDesktopIcon(
                         label: 'GitHub',
                         imagePath: 'assets/images/github.png',
                         badgeText: '10+',
                         lang: _lang,
                       ),
+                      CustomDesktopIcon(
+                        label: _lang == Lang.fr ? 'Certifications' : 'Certifications',
+                        emoji: '🏅',
+                        lang: _lang,
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
             
@@ -394,27 +458,31 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                         imagePath: 'assets/images/home.png',
                         label: _lang == Lang.fr ? 'Accueil' : 'Home',
                         onRefresh: () => setState(() => _currentTime = DateTime.now()),
+                        lang: _lang,
                       ),
                       const SizedBox(width: 15),
                       DockIconImage(
                         imagePath: 'assets/images/mail.png',
                         label: _lang == Lang.fr ? 'Menvoyez un e-mail' : 'Email me',
                         url: 'https://outlook.office.com/mail/deeplink/compose?to=jeremy.girard@etu.unice.fr&subject=Contact%20depuis%20le%20portfolio&body=Bonjour%20Jérémy',
+                        lang: _lang,
                       ),
                       const SizedBox(width: 15),
                       DockIconImage(
-                        imagePath: 'assets/images/flutter.png',
+                        imagePath: 'assets/images/cmd.png',
                         label: _lang == Lang.fr
                             ? 'Consultez mes projets de programmation'
                             : 'See my programming projects',
                         badgeText: '8+',
+                        lang: _lang,
                       ),
                       const SizedBox(width: 15),
                       DockIconImage(
-                        imagePath: 'assets/images/pct.png',
+                        imagePath: 'assets/images/reseau.png',
                         label: _lang == Lang.fr
                             ? 'Explorez mes projets de réseaux'
                             : 'Browse my networking projects',
+                        lang: _lang,
                       ),
                       const SizedBox(width: 15),
                       CalendarDockIcon(
@@ -425,7 +493,7 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
                       const SizedBox(width: 15),
                       ProfileDockIcon(
                         imagePath: 'assets/images/moi1.jpeg',
-                        label: _lang == Lang.fr ? 'Me contactez' : 'Contact me',
+                        label: _lang == Lang.fr ? 'Me contacter' : 'Contact me',
                       ),
                     ],
                   ),
@@ -434,7 +502,6 @@ class _MacOSStyleHomeState extends State<MacOSStyleHome>
             ),
           ],
         ),
-      ),
     );
   }
 }
@@ -458,6 +525,7 @@ class DockIconImage extends StatelessWidget {
   final String? label;
   final String? url;
   final VoidCallback? onRefresh;
+  final Lang lang;
 
   const DockIconImage({
     super.key,
@@ -466,100 +534,40 @@ class DockIconImage extends StatelessWidget {
     this.label,
     this.url,
     this.onRefresh,
+    this.lang = Lang.fr,
   });
 
   void _handleTap(BuildContext context) async {
+    // 1. On récupère TOUS les projets depuis la source unique
+    final List<Widget> allProjects = getAllProjects(lang);
+
     if (label == 'Consultez mes projets de programmation' || label == 'See my programming projects') {
+      
+      // 2. FILTRAGE : On garde seulement ceux qui contiennent des mots clés "Dev"
+      final devProjects = allProjects.where((widget) {
+        String cat = "";
+        // On vérifie le type de widget pour accéder à la catégorie
+        if (widget is FeaturedProjectCard) cat = widget.category.toLowerCase();
+        else if (widget is StandardProjectCard) cat = widget.category.toLowerCase();
+        else return false; // On ignore les SizedBox ou autres
+
+        // Liste des mots-clés pour la programmation
+        return cat.contains('dev') || cat.contains('web') || cat.contains('python') || 
+               cat.contains('mobile') || cat.contains('signal') || cat.contains('programmation') ||
+               cat.contains('embarqué') || cat.contains('embedded');
+      }).toList();
+
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
           transitionDuration: const Duration(milliseconds: 400),
           pageBuilder: (_, __, ___) => MacOSProjectWindow(
-            title: 'Initiative en matière de programmation',
-            content: [
-              FeaturedProjectCard(
-                title: "🔊​ HighDef",
-                category: "Traitement du signal",
-                shortDescription: "Mesure rapide d’un signal audio.",
-                fullDescription:
-                    "Le projet HighDef est une étude en trois phases portant sur la comparaison entre la qualité audio Haute Définition (HD) et Simple Définition (SD). Il vise à déterminer si l’amélioration de la qualité perçue est significative, justifiant l’usage de formats audio HD.",
-                image: "assets/images/tss.jpg",
-                gallery: [
-                  "assets/images/sae22frt.png",
-                  "assets/images/sae22ism.png",
-                  "assets/images/sae22plt.png",
-                  "assets/images/sae22rad1.png",
-                  "assets/images/sae22spectre.png",
-                  "assets/images/sae22trs1.png",
-                ],
-                competencies: [
-                  "Extraction et analyse de caractéristiques audio (RMS, spectre, dynamique)",
-                  "Utilisation de bibliothèques Python (NumPy, SciPy, Matplotlib)",
-                  "Visualisation de signaux dans le domaine temporel et fréquentiel",
-                  "Interprétation de résultats expérimentaux et rédaction scientifique",
-                ],
-                githubUrl: "https://github.com/Jerem-ctrl/HighDef",
-              ),
-              const SizedBox(height: 24),
-              StandardProjectCard(
-                title: 'Interface Web embarquée pour Thales',
-                category: 'Projet Web & Système embarqué',
-                shortDescription:
-                    'Conception d\'une interface web sécurisée pour banc avionique dans le cadre d’un projet Thales.',
-                fullDescription:
-                    'Ce projet a consisté à développer une interface web intuitive permettant de prendre, visualiser et gérer des photos dans le cadre de la SAE 23. L’objectif principal était de concevoir une plateforme accessible à distance, avec authentification sécurisée et journalisation des actions utilisateur, le tout dans un environnement embarqué.',
-                image: 'assets/images/sae23php1.jpg',
-                gallery: [
-                  'assets/images/sae23php2.png',
-                  'assets/images/sae23php3.png',
-                  'assets/images/sae23php4.png',
-                  'assets/images/sae23php5.png',
-                  'assets/images/sae23php6.png',
-                  'assets/images/sae23php7.png',
-                  'assets/images/sae23php8.png',
-                  'assets/images/sae23php9.png',
-                  'assets/images/sae23php10.png',
-                  'assets/images/sae23php11.png',
-                  'assets/images/sae23php12.png',
-                  'assets/images/sae23php13.png',
-                ],
-                competencies: [
-                  'Développement front-end en HTML, CSS et JavaScript pour une interface responsive',
-                  'Intégration d’un serveur web léger avec routage et gestion des sessions',
-                  'Implémentation de fonctionnalités de sécurité (authentification, logging)',
-                  'Gestion des formulaires et traitement des données utilisateur côté serveur',
-                ],
-                githubUrl:
-                    'https://github.com/Jerem-ctrl/Secure_Embedded_Web_Interface_for_Thales',
-              ),
-              StandardProjectCard(
-                title:
-                    'Système de traçabilité Photo embarqué pour Banc Avionique',
-                category: 'Systèmes embarqués & Programmation Python',
-                shortDescription:
-                    'Développement d’un système embarqué permettant la capture et la gestion sécurisée de photos sur un banc de test avionique, avec interface web, authentification et traçabilité des actions.',
-                fullDescription:
-                    'Dans le cadre de la SAE 24, ce projet visait à développer un système de capture photo embarqué sur Raspberry Pi, destiné à documenter les modifications sur un banc de test avionique. En combinant Python, un microcontrôleur Pico WH, une caméra USB, et des composants GPIO (LED, boutons, etc.), le système permet la prise de photos automatique ou manuelle avec gestion de l’éclairage. L\'ensemble s’intègre à une interface web sécurisée développée lors de la SAE 23, pour assurer la traçabilité et l’accessibilité des images à distance.',
-                image: 'assets/images/sae24py1.webp',
-                gallery: [
-                  'assets/images/sae24py2.png',
-                  'assets/images/sae24py3.png',
-                  'assets/images/sae24py4.png',
-                  'assets/images/sae24py5.png',
-                  'assets/images/sae24py6.png',
-                  'assets/images/sae24py7.png',
-                  'assets/images/sae24py8.png',
-                ],
-                competencies: [
-                  'Programmation Python embarquée',
-                  'Utilisation de Raspberry Pi et microcontrôleur',
-                  'Communication série (UART)',
-                  'Intégration de périphériques (caméra, GPIO)',
-                ],
-                githubUrl:
-                    'https://github.com/Jerem-ctrl/Embedded_Photo-Logging_System_for_Avionics',
-              ),
-            ],
+            title: lang == Lang.fr ? 'Projets Programmation' : 'Programming Projects',
+            // AJOUTE LA DESCRIPTION ICI :
+            description: lang == Lang.fr 
+                ? "Explorez mes développements d'applications mobiles et web, ainsi que mes outils d'analyse de signal et scripts d'automatisation."
+                : "Explore my mobile and web application developments, as well as my signal analysis tools and automation scripts.",
+            content: devProjects,
           ),
           transitionsBuilder: (_, animation, __, child) {
             return ScaleTransition(
@@ -571,85 +579,32 @@ class DockIconImage extends StatelessWidget {
           },
         ),
       );
+
     } else if (label == 'Explorez mes projets de réseaux' || label == 'Browse my networking projects') {
+      
+      // 3. FILTRAGE : On garde seulement ceux qui contiennent des mots clés "Réseau"
+      final netProjects = allProjects.where((widget) {
+        String cat = "";
+        if (widget is FeaturedProjectCard) cat = widget.category.toLowerCase();
+        else if (widget is StandardProjectCard) cat = widget.category.toLowerCase();
+        else return false;
+
+        // Liste des mots-clés pour le réseau/cyber
+        return cat.contains('réseau') || cat.contains('network') || cat.contains('cyber') || 
+               cat.contains('sécurité') || cat.contains('security') || cat.contains('infra') ||
+               cat.contains('telecom') || cat.contains('cisco');
+      }).toList();
+
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
           transitionDuration: const Duration(milliseconds: 400),
           pageBuilder: (_, __, ___) => MacOSProjectWindow(
-            title: 'Initiatives liées aux réseaux',
-            content: [
-              FeaturedProjectCard(
-                title: "Infrastructure réseau sécurisée pour PME",
-                category: "Réseaux & Sécurité",
-                shortDescription:
-                    "Ce projet simule une architecture réseau complète pour PME avec VLANs, DNS/DHCP, DMZ, pare-feu ASA, routage et sécurité.",
-                fullDescription:
-                    "Dans le cadre de la SAÉ 21, nous avons conçu l’architecture réseau d’une PME à l’aide de Cisco Packet Tracer. Le projet comprend la configuration de VLANs, de serveurs DHCP/DNS, d’une DMZ avec pare-feu ASA, de routage statique, ainsi que la mise en place de la sécurité via des ACL et du NAT. L’objectif était d’assurer la segmentation, la sécurité et la connectivité complète du réseau d’entreprise.",
-                image: "assets/images/sae21ci1.jpg",
-                gallery: [
-                  "assets/images/sae21ci2.png",
-                  "assets/images/sae21c3.png",
-                  "assets/images/sae21c4.png",
-                  "assets/images/sae21c5.png",
-                ],
-                competencies: [
-                  "Configuration de VLANs et routage inter-VLAN",
-                  "Mise en place d’un pare-feu ASA (DMZ, NAT, ACL)",
-                  "Plan d’adressage et configuration DNS/DHCP",
-                  "Simulation réseau complète sous Cisco Packet Tracer",
-                ],
-                githubUrl:
-                    'https://github.com/Jerem-ctrl/Secure-Network-Infrastructure-for-Small-Businesses',
-              ),
-              const SizedBox(height: 24),
-              StandardProjectCard(
-                title: 'Analyse de cyberattaques & bonnes pratiques',
-                category: 'Cybersécurité & Sensibilisation',
-                shortDescription:
-                    'Étude de cyberattaques réelles et sensibilisation aux menaces numériques.',
-                fullDescription:
-                    'Dans le cadre de la SAÉ 11, nous avons analysé plusieurs cyberattaques connues afin d’en comprendre les mécanismes, les conséquences et les moyens de prévention. Ce travail s’est appuyé sur des recherches approfondies concernant les bonnes pratiques d’hygiène informatique. L’objectif principal était de développer une culture de la cybersécurité et de renforcer les réflexes face aux menaces numériques.',
-                image: 'assets/images/sae11c3.jpg',
-                gallery: [
-                  'assets/images/sae11c4.webp',
-                  'assets/images/sae11c5.png',
-                  'assets/images/sae11c6.png',
-                ],
-                competencies: [
-                  "Comprendre les principes de base de la cybersécurité",
-                  "Analyser une cyberattaque et ses vecteurs",
-                  "Identifier les bonnes pratiques d’hygiène informatique",
-                  "Communiquer efficacement à travers un support pédagogique",
-                ],
-                githubUrl:
-                    'https://github.com/Jerem-ctrl/Analysis-of-Cyberattacks-and-Security-Best-Practices',
-              ),
-              StandardProjectCard(
-                title:
-                    'Exploration des réseaux domestiques & impacts énergétiques',
-                category: 'Réseaux & Écoresponsabilité',
-                shortDescription:
-                    'Mise en pratique des connaissances réseaux via l’analyse d’un environnement domestique réel, combinée à une étude de la consommation énergétique des équipements.',
-                fullDescription:
-                    'Dans le cadre de la SAÉ 12, nous avons étudié le fonctionnement d’un réseau local domestique à travers l’analyse d’un équipement connecté (ordinateur, smartphone…). Cette démarche comprenait l’identification des composants réseau, l’observation du trafic (IP, DNS, ports) et la représentation schématique de l’infrastructure. En parallèle, une réflexion a été menée sur la consommation énergétique des équipements numériques et leur impact environnemental.',
-                image: 'assets/images/sae12r3.jpeg',
-                gallery: [
-                  'assets/images/sae12r4.png',
-                  'assets/images/sae12r5.png',
-                  'assets/images/sae12r6.png',
-                  'assets/images/sae12r7.png',
-                ],
-                competencies: [
-                  "Comprendre et analyser un réseau local (IP, MAC, DHCP, DNS…)",
-                  "Utiliser des outils de diagnostic réseau (Traceroute, Wireshark)",
-                  "Interpréter des données techniques (consommation, émissions CO₂)",
-                  "Schématiser et documenter une infrastructure réseau personnelle",
-                ],
-                githubUrl:
-                    'https://github.com/Jerem-ctrl/Analysis-of-Cyberattacks-and-Security-Best-Practices',
-              ),
-            ],
+            title: lang == Lang.fr ? 'Projets Réseaux & Cyber' : 'Network & Cyber Projects',
+            description: lang == Lang.fr
+                ? "Découvrez mes conceptions d'architectures réseaux sécurisées, mes déploiements d'infrastructures fibres et mes audits de cybersécurité."
+                : "Discover my secure network architecture designs, fiber infrastructure deployments, and cybersecurity audits.",
+            content: netProjects,
           ),
           transitionsBuilder: (_, animation, __, child) {
             return ScaleTransition(
@@ -661,7 +616,9 @@ class DockIconImage extends StatelessWidget {
           },
         ),
       );
+
     } else if (label == 'Me contactez' || label == 'Contact me') {
+      // ... (Le reste de ton code ne change pas) ...
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
@@ -863,21 +820,29 @@ Widget _projectCard(String title, String desc, String category, String img) {
 
 class CustomDesktopIcon extends StatelessWidget {
   final String label;
-  final String imagePath;
+  final String? imagePath;
+  final String? emoji;
   final String? badgeText;
   final String? url;
   final Lang lang;
+  final VoidCallback? onTapOverride;
 
   const CustomDesktopIcon({
     super.key,
     required this.label,
-    required this.imagePath,
+    this.imagePath,
+    this.emoji,
     this.badgeText,
     this.url,
     required this.lang,
+    this.onTapOverride,
   });
 
   void _handleTap(BuildContext context) async {
+    if (onTapOverride != null) {
+      onTapOverride!();
+      return;
+    }
     if (label == '📸 SAE 23 - Prise de Photos') {
       Navigator.of(context).push(
         PageRouteBuilder(
@@ -927,6 +892,9 @@ class CustomDesktopIcon extends StatelessWidget {
           pageBuilder: (_, __, ___) => MacOSProjectWindow(
             title: lang == Lang.fr ? 'Tous les projets' : 'All Projects',
             content: getAllProjects(lang),
+            description: lang == Lang.fr
+                ? 'Explorez l\'ensemble de mes réalisations : développement, réseaux et cybersécurité.'
+                : 'Explore all my work: development, networking, and cybersecurity.',
           ),
           transitionsBuilder: (_, animation, __, child) {
             return ScaleTransition(
@@ -981,6 +949,21 @@ class CustomDesktopIcon extends StatelessWidget {
       if (await canLaunchUrl(Uri.parse(url))) {
         await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       }
+    } else if (label == 'Certifications' || label == 'Certifications') {
+      // Ouvre la fenêtre des certifications de la même manière que pour Expériences ou Compétences
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          transitionDuration: const Duration(milliseconds: 400),
+          pageBuilder: (_, __, ___) => CertificationWindow(lang: lang),
+          transitionsBuilder: (_, anim, __, child) => ScaleTransition(
+            scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+              CurvedAnimation(parent: anim, curve: Curves.easeOut),
+            ),
+            child: FadeTransition(opacity: anim, child: child),
+          ),
+        ),
+      );
     }
   }
 
@@ -999,11 +982,15 @@ class CustomDesktopIcon extends StatelessWidget {
                   width: 55,
                   height: 55,
                   decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.35),
                     borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: AssetImage(imagePath),
-                      fit: BoxFit.cover,
-                    ),
+                    image: (imagePath != null && emoji == null)
+                        ? DecorationImage(
+                            image: AssetImage(imagePath!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                    border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),
@@ -1012,6 +999,17 @@ class CustomDesktopIcon extends StatelessWidget {
                       ),
                     ],
                   ),
+                  child: emoji != null
+                      ? Center(
+                          child: Text(
+                            emoji!,
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontFamilyFallback: ['Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji'],
+                            ),
+                          ),
+                        )
+                      : null,
                 ),
                 if (badgeText != null)
                   Positioned(
@@ -1222,4 +1220,4 @@ class CalendarDockIcon extends StatelessWidget {
       return monthsFr[month - 1];
     }
   }
-}
+}
